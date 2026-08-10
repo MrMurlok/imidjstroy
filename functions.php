@@ -30,6 +30,14 @@ add_action( 'after_setup_theme', 'imidjstroy_setup' );
 
 
 function imidjstroy_assets() {
+
+wp_enqueue_style(
+    'imidjstroy-fonts',
+    'https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;600;700&display=swap',
+    [],
+    null
+);
+
     wp_enqueue_style(
         'imidjstroy-main',
         get_template_directory_uri() . '/assets/css/main.css',
