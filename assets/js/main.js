@@ -85,3 +85,64 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+/* =========================================================
+   HOME CATEGORIES CAROUSEL
+========================================================= */
+
+document.addEventListener('DOMContentLoaded', function () {
+    const viewport = document.querySelector('.js-categories-viewport');
+    const previous = document.querySelector('.js-categories-prev');
+    const next = document.querySelector('.js-categories-next');
+
+    if (!viewport || !previous || !next) {
+        return;
+    }
+
+    function getStep() {
+        const firstItem = viewport.querySelector('.home-categories__item');
+
+        if (!firstItem) {
+            return viewport.clientWidth;
+        }
+
+        return firstItem.getBoundingClientRect().width;
+    }
+
+    function updateButtons() {
+        const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+        const position = viewport.scrollLeft;
+
+        previous.disabled = position <= 2;
+        next.disabled = position >= maxScroll - 2;
+    }
+
+    previous.addEventListener('click', function () {
+        viewport.scrollBy({
+            left: -getStep(),
+            behavior: 'smooth'
+        });
+    });
+
+    next.addEventListener('click', function () {
+        const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+
+        if (viewport.scrollLeft >= maxScroll - 2) {
+            viewport.scrollTo({
+                left: 0,
+                behavior: 'smooth'
+            });
+            return;
+        }
+
+        viewport.scrollBy({
+            left: getStep(),
+            behavior: 'smooth'
+        });
+    });
+
+    viewport.addEventListener('scroll', updateButtons, { passive: true });
+    window.addEventListener('resize', updateButtons);
+
+    updateButtons();
+});

@@ -174,15 +174,16 @@ $map_link = 'https://2gis.ru/vladivostok/search/%D1%83%D0%BB.%20%D0%98%D1%80%D1%
             </div>
 
             <div class="map-modal__map">
-                <iframe
-                    src="https://yandex.ru/map-widget/v1/?ll=131.918675%2C43.162749&z=17&pt=131.918675,43.162749,pm2gnm"
-                    width="100%"
-                    height="320"
-                    frameborder="0"
-                    loading="lazy"
-                    title="Имидж Строй на карте"
-                ></iframe>
-            </div>
+               <iframe
+    src="https://widgets.2gis.com/widget?type=firmsonmap&options=%7B%22pos%22%3A%7B%22lat%22%3A43.162749%2C%22lon%22%3A131.918675%2C%22zoom%22%3A17%7D%2C%22opt%22%3A%7B%22city%22%3A%22vladivostok%22%7D%2C%22org%22%3A%223519072864048717%22%7D"
+    width="100%"
+    height="320"
+    frameborder="0"
+    loading="lazy"
+    title="Имидж Строй на карте"
+    allowfullscreen
+></iframe>
+
 
             <div class="map-modal__actions">
                 <a
