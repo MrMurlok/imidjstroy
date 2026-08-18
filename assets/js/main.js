@@ -146,3 +146,137 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updateButtons();
 });
+
+/* =========================================================
+   CONTACT FORM
+========================================================= */
+
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.js-contact-form');
+    const submit = document.querySelector('.js-contact-submit');
+    const text = document.querySelector('.js-contact-submit-text');
+
+    if (!form || !submit || !text) {
+        return;
+    }
+
+    form.addEventListener('submit', function () {
+        submit.disabled = true;
+        text.textContent = 'Отправка...';
+    });
+});
+
+/* =========================================================
+   LEAF CATEGORY FILTERS
+========================================================= */
+
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.js-category-products-filters');
+
+    if (!form) {
+        return;
+    }
+
+    const autosubmitFields = form.querySelectorAll('.js-category-filter-submit');
+
+    autosubmitFields.forEach(function (field) {
+        field.addEventListener('change', function () {
+            form.requestSubmit();
+        });
+    });
+
+    const range = form.querySelector('.js-category-price-range');
+
+    if (!range) {
+        return;
+    }
+
+    const minInput = range.querySelector('.js-category-range-min');
+    const maxInput = range.querySelector('.js-category-range-max');
+    const minHidden = range.querySelector('.js-category-price-min-hidden');
+    const maxHidden = range.querySelector('.js-category-price-max-hidden');
+    const fill = range.querySelector('.js-category-range-fill');
+    const label = form.querySelector('.js-category-price-label');
+
+    if (!minInput || !maxInput || !minHidden || !maxHidden || !fill || !label) {
+        return;
+    }
+
+    const boundMin = Number(range.dataset.boundMin || 0);
+    const boundMax = Number(range.dataset.boundMax || 0);
+
+    function formatNumber(value) {
+        return new Intl.NumberFormat('ru-RU', {
+            maximumFractionDigits: 0
+        }).format(value);
+    }
+
+    function updateRange(changedInput) {
+        let minValue = Number(minInput.value);
+        let maxValue = Number(maxInput.value);
+
+        if (minValue > maxValue) {
+            if (changedInput === minInput) {
+                minValue = maxValue;
+                minInput.value = String(minValue);
+            } else {
+                maxValue = minValue;
+                maxInput.value = String(maxValue);
+            }
+        }
+
+        minHidden.value = String(minValue);
+        maxHidden.value = String(maxValue);
+
+        const span = Math.max(1, boundMax - boundMin);
+        const left = ((minValue - boundMin) / span) * 100;
+        const right = 100 - ((maxValue - boundMin) / span) * 100;
+
+        fill.style.left = left + '%';
+        fill.style.right = right + '%';
+
+        label.textContent = formatNumber(minValue) + ' – ' + formatNumber(maxValue) + ' ₽';
+    }
+
+    minInput.addEventListener('input', function () {
+        updateRange(minInput);
+    });
+
+    maxInput.addEventListener('input', function () {
+        updateRange(maxInput);
+    });
+
+    minInput.addEventListener('change', function () {
+        form.requestSubmit();
+    });
+
+    maxInput.addEventListener('change', function () {
+        form.requestSubmit();
+    });
+
+    updateRange(null);
+});
+
+
+/* =========================================================
+   SINGLE PRODUCT PAGE
+========================================================= */
+
+document.addEventListener('DOMContentLoaded', function () {
+    const backButton = document.querySelector('.js-product-back');
+
+    if (!backButton) {
+        return;
+    }
+
+    backButton.addEventListener('click', function () {
+        const fallback = backButton.dataset.fallback || '/shop/';
+
+        if (window.history.length > 1 && document.referrer) {
+            window.history.back();
+            return;
+        }
+
+        window.location.href = fallback;
+    });
+});

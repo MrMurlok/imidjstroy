@@ -28,7 +28,6 @@ if ( taxonomy_exists( 'product_cat' ) ) {
     $categories = get_terms( [
         'taxonomy'   => 'product_cat',
         'hide_empty' => false,
-        'parent'     => 0,
         'orderby'    => 'menu_order',
         'order'      => 'ASC',
     ] );
@@ -36,6 +35,9 @@ if ( taxonomy_exists( 'product_cat' ) ) {
     if ( is_wp_error( $categories ) ) {
         $categories = [];
     }
+$categories = array_filter( $categories, function ( $category ) {
+    return $category->parent > 0;
+} );
 }
 ?>
 

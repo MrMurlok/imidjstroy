@@ -76,5 +76,14 @@ get_header();
 <?php
 get_template_part( 'template-parts/components/features' );
 get_template_part( 'template-parts/components/categories' );
+get_template_part( 'template-parts/components/building-materials' );
+get_template_part( 'template-parts/components/ad-materials' );
+get_template_part( 'template-parts/components/popular-products' );
+?>
 
+<div id="contact-form">
+    <?php get_template_part( 'template-parts/components/contact-form' ); ?>
+</div>
+
+<?php
 get_footer();
