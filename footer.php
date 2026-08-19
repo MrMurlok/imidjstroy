@@ -4,7 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $address = 'г. Владивосток, ул. Иртышская, 17А, стр. 4';
-$map_link = 'https://2gis.ru/vladivostok/search/%D1%83%D0%BB.%20%D0%98%D1%80%D1%82%D1%8B%D1%88%D1%81%D0%BA%D0%B0%D1%8F%2C%2017%D0%90%2C%20%D1%81%D1%82%D1%80.%204/geo/3519072864048717/131.918675%2C43.162749?m=131.918715%2C43.162479%2F20';
+$map_link = 'https://go.2gis.com/IlQJm';
+$route_link = 'https://2gis.ru/vladivostok/directions/points/%7C131.918791%2C43.162781%3B70000001079958540';
 ?>
 
 </main>
@@ -175,7 +176,7 @@ $map_link = 'https://2gis.ru/vladivostok/search/%D1%83%D0%BB.%20%D0%98%D1%80%D1%
 
             <div class="map-modal__map">
                <iframe
-    src="https://widgets.2gis.com/widget?type=firmsonmap&options=%7B%22pos%22%3A%7B%22lat%22%3A43.162749%2C%22lon%22%3A131.918675%2C%22zoom%22%3A17%7D%2C%22opt%22%3A%7B%22city%22%3A%22vladivostok%22%7D%2C%22org%22%3A%223519072864048717%22%7D"
+    src="https://widgets.2gis.com/widget?type=firmsonmap&options=%7B%22pos%22%3A%7B%22lat%22%3A43.162781%2C%22lon%22%3A131.918791%2C%22zoom%22%3A17%7D%2C%22opt%22%3A%7B%22city%22%3A%22vladivostok%22%7D%2C%22org%22%3A%2270000001079958540%22%7D"
     width="100%"
     height="320"
     frameborder="0"
@@ -183,7 +184,7 @@ $map_link = 'https://2gis.ru/vladivostok/search/%D1%83%D0%BB.%20%D0%98%D1%80%D1%
     title="Имидж Строй на карте"
     allowfullscreen
 ></iframe>
-
+            </div>
 
             <div class="map-modal__actions">
                 <a
@@ -201,7 +202,7 @@ $map_link = 'https://2gis.ru/vladivostok/search/%D1%83%D0%BB.%20%D0%98%D1%80%D1%
                 </a>
 
                 <a
-                    href="<?php echo esc_url( $map_link ); ?>"
+                    href="<?php echo esc_url( $route_link ); ?>"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="map-modal__button map-modal__button--secondary"

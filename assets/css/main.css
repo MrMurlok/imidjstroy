@@ -1260,6 +1260,10 @@ a.home-hero__meta-item:hover {
 
 .home-categories__viewport {
     width: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.75rem;
+    margin-top: -0.5rem;
+    margin-bottom: -0.75rem;
     overflow: hidden;
     scroll-behavior: smooth;
     scrollbar-width: none;
@@ -1295,7 +1299,7 @@ a.home-hero__meta-item:hover {
 }
 
 .category-card:hover {
-    transform: translateY(-0.25rem);
+    transform: scale(1.02);
     box-shadow:
         0 10px 15px -3px rgb(0 0 0 / 0.10),
         0 4px 6px -4px rgb(0 0 0 / 0.10);
@@ -3854,5 +3858,871 @@ a.home-hero__meta-item:hover {
     .product-page__title {
         font-size: 1.875rem;
         line-height: 2.25rem;
+    }
+}
+
+/* =========================================================
+   MAP MODAL — LARGE SCREENS
+========================================================= */
+@media (min-width: 1024px) {
+    .map-modal {
+        padding: 2rem;
+    }
+
+    .map-modal__panel {
+        max-width: 68rem;
+    }
+
+    .map-modal__content {
+        padding: 2rem;
+    }
+
+    .map-modal__map iframe {
+        height: 500px;
+        min-height: 500px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .map-modal__panel {
+        max-width: 76rem;
+    }
+
+    .map-modal__map iframe {
+        height: 540px;
+        min-height: 540px;
+    }
+}
+
+/* =========================================================
+   CART
+========================================================= */
+
+.cart-page {
+    min-height: 60vh;
+    background: hsl(var(--background));
+}
+
+.imidjstroy-cart {
+    padding: 2.5rem 0 3rem;
+}
+
+.imidjstroy-cart__container {
+    max-width: 1184px;
+}
+
+.imidjstroy-cart__header {
+    margin-bottom: 2rem;
+}
+
+.imidjstroy-cart__title {
+    margin: 0;
+    color: hsl(var(--foreground));
+    font-size: clamp(1.75rem, 3vw, 2rem);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.imidjstroy-cart__subtitle {
+    margin: 0.5rem 0 0;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.95rem;
+}
+
+.imidjstroy-cart__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.imidjstroy-cart__items {
+    display: grid;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.imidjstroy-cart-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.75rem;
+    background: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+}
+
+.imidjstroy-cart-item__media {
+    width: 6rem;
+    height: 6rem;
+    flex: 0 0 6rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background: hsl(var(--muted));
+}
+
+.imidjstroy-cart-item__media a,
+.imidjstroy-cart-item__media img {
+    width: 100%;
+    height: 100%;
+}
+
+.imidjstroy-cart-item__media img {
+    object-fit: cover;
+}
+
+.imidjstroy-cart-item__info {
+    min-width: 0;
+    flex: 1;
+}
+
+.imidjstroy-cart-item__name {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0;
+    color: hsl(var(--foreground));
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.imidjstroy-cart-item__name a {
+    transition: color 0.2s ease;
+}
+
+.imidjstroy-cart-item__name a:hover {
+    color: hsl(var(--primary));
+}
+
+.imidjstroy-cart-item__sku,
+.imidjstroy-cart-item__price,
+.imidjstroy-cart-item__stock,
+.imidjstroy-cart-item__backorder,
+.imidjstroy-cart-item__subtotal {
+    margin: 0.35rem 0 0;
+}
+
+.imidjstroy-cart-item__sku {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.75rem;
+}
+
+.imidjstroy-cart-item__price {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+}
+
+.imidjstroy-cart-item__price .amount {
+    color: inherit;
+}
+
+.imidjstroy-cart-item__stock {
+    font-size: 0.75rem;
+}
+
+.imidjstroy-cart-item__stock.is-in-stock {
+    color: rgb(22 163 74);
+}
+
+.imidjstroy-cart-item__stock.is-out-of-stock,
+.imidjstroy-cart-item__backorder {
+    color: hsl(var(--destructive));
+}
+
+.imidjstroy-cart-item__subtotal {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    margin-top: 0.55rem;
+    color: hsl(var(--foreground));
+    font-size: 0.875rem;
+}
+
+.imidjstroy-cart-item__subtotal strong {
+    font-weight: 600;
+}
+
+.imidjstroy-cart-item__controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+    flex: 0 0 auto;
+}
+
+.imidjstroy-cart-item__quantity {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    min-height: 2.5rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    background: hsl(var(--background));
+}
+
+.imidjstroy-cart-item__qty-button {
+    display: inline-flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    color: hsl(var(--foreground));
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.imidjstroy-cart-item__qty-button:hover {
+    background: hsl(var(--accent));
+    color: hsl(var(--primary));
+}
+
+.imidjstroy-cart-item__qty-button svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+.imidjstroy-cart-item__quantity .quantity {
+    margin: 0 !important;
+}
+
+.imidjstroy-cart-item__quantity .qty {
+    width: 2.75rem !important;
+    min-width: 2.75rem;
+    height: 2.5rem;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    outline: 0;
+    background: transparent;
+    color: hsl(var(--foreground));
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.imidjstroy-cart-item__quantity .qty::-webkit-inner-spin-button,
+.imidjstroy-cart-item__quantity .qty::-webkit-outer-spin-button {
+    margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.imidjstroy-cart-item__remove {
+    display: inline-flex !important;
+    width: auto !important;
+    height: 2.25rem !important;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 0.8rem !important;
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: 0.45rem !important;
+    background: transparent !important;
+    color: hsl(var(--foreground)) !important;
+    font-size: 0.8rem !important;
+    font-weight: 500;
+    line-height: 1 !important;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.imidjstroy-cart-item__remove:hover,
+.imidjstroy-cart-item__remove:focus-visible {
+    border-color: hsl(var(--destructive)) !important;
+    background: hsl(var(--destructive)) !important;
+    color: #fff !important;
+    opacity: 1 !important;
+    text-decoration: none !important;
+}
+
+.imidjstroy-cart-item__remove:hover span,
+.imidjstroy-cart-item__remove:focus-visible span {
+    color: #fff !important;
+    opacity: 1 !important;
+}
+
+.imidjstroy-cart-item__remove:hover svg,
+.imidjstroy-cart-item__remove:focus-visible svg {
+    stroke: #fff !important;
+    opacity: 1 !important;
+}
+
+.imidjstroy-cart-item__remove::before,
+.imidjstroy-cart-item__remove::after {
+    display: none !important;
+}
+
+.imidjstroy-cart-item__remove svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.imidjstroy-cart-summary {
+    display: grid;
+    gap: 1rem;
+    position: sticky;
+    top: 6.75rem;
+}
+
+.imidjstroy-cart-summary__card {
+    padding: 1.5rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.75rem;
+    background: hsl(var(--card));
+}
+
+.imidjstroy-cart-summary__title {
+    margin: 0 0 1.25rem;
+    color: hsl(var(--foreground));
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.imidjstroy-cart-summary__box {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: hsl(var(--muted) / 0.55);
+}
+
+.imidjstroy-cart-summary__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+}
+
+.imidjstroy-cart-summary__row + .imidjstroy-cart-summary__row {
+    margin-top: 0.6rem;
+}
+
+.imidjstroy-cart-summary__row strong {
+    color: hsl(var(--foreground));
+    font-weight: 500;
+    text-align: right;
+}
+
+.imidjstroy-cart-summary__row--total {
+    margin-top: 0.85rem !important;
+    padding-top: 0.85rem;
+    border-top: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.imidjstroy-cart-summary__row--total strong {
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.imidjstroy-cart-summary__hint {
+    margin: 1rem 0;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+.imidjstroy-cart-summary__checkout,
+.imidjstroy-cart-summary__continue,
+.imidjstroy-empty-cart__button {
+    display: inline-flex;
+    width: 100%;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.imidjstroy-cart-summary__checkout,
+.imidjstroy-empty-cart__button {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+
+.imidjstroy-cart-summary__checkout:hover,
+.imidjstroy-empty-cart__button:hover {
+    background: hsl(var(--primary) / 0.9);
+    color: hsl(var(--primary-foreground));
+}
+
+.imidjstroy-cart-summary__continue {
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+}
+
+.imidjstroy-cart-summary__continue:hover {
+    border-color: hsl(var(--primary) / 0.45);
+    color: hsl(var(--primary));
+}
+
+.imidjstroy-cart__native-actions {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+}
+
+.imidjstroy-empty-cart {
+    display: flex;
+    min-height: 310px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3.5rem 1.5rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.75rem;
+    background: hsl(var(--card));
+    text-align: center;
+}
+
+.imidjstroy-empty-cart__icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: 1rem;
+    color: hsl(var(--muted-foreground));
+}
+
+.imidjstroy-empty-cart__icon svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.imidjstroy-empty-cart h2 {
+    margin: 0;
+    color: hsl(var(--foreground));
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.imidjstroy-empty-cart p {
+    max-width: 420px;
+    margin: 0.6rem 0 1.5rem;
+    color: hsl(var(--muted-foreground));
+    line-height: 1.55;
+}
+
+.imidjstroy-empty-cart__button {
+    width: auto;
+    min-width: 170px;
+}
+
+.imidjstroy-cart-notices {
+    max-width: 1280px;
+}
+
+.imidjstroy-cart-notices:empty {
+    display: none;
+}
+
+.imidjstroy-cart-notices .woocommerce-message,
+.imidjstroy-cart-notices .woocommerce-error,
+.imidjstroy-cart-notices .woocommerce-info {
+    width: 100%;
+    margin: 0 0 1.5rem !important;
+    box-sizing: border-box;
+}
+
+/* Undo is an action, so present it as an actual button rather than plain text. */
+.imidjstroy-cart-notices .restore-item {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    margin-left: 0.65rem;
+    padding: 0.35rem 0.85rem !important;
+    border: 1px solid hsl(var(--primary)) !important;
+    border-radius: 0.45rem !important;
+    background: hsl(var(--primary)) !important;
+    color: hsl(var(--primary-foreground)) !important;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.imidjstroy-cart-notices .restore-item:hover,
+.imidjstroy-cart-notices .restore-item:focus-visible {
+    background: hsl(var(--primary) / 0.88) !important;
+    border-color: hsl(var(--primary) / 0.88) !important;
+    color: hsl(var(--primary-foreground)) !important;
+    text-decoration: none !important;
+}
+
+@media (max-width: 640px) {
+    .imidjstroy-cart-notices .restore-item {
+        margin-top: 0.5rem;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 980px) {
+    .imidjstroy-cart__layout {
+        grid-template-columns: 1fr;
+    }
+
+    .imidjstroy-cart-summary {
+        position: static;
+        grid-row: auto;
+    }
+}
+
+@media (max-width: 640px) {
+    .imidjstroy-cart {
+        padding: 2rem 0 2.5rem;
+    }
+
+    .imidjstroy-cart__header {
+        margin-bottom: 1.5rem;
+    }
+
+    .imidjstroy-cart-item {
+        display: grid;
+        grid-template-columns: 5.25rem minmax(0, 1fr);
+        align-items: start;
+        gap: 0.9rem;
+    }
+
+    .imidjstroy-cart-item__media {
+        width: 5.25rem;
+        height: 5.25rem;
+        flex-basis: 5.25rem;
+    }
+
+    .imidjstroy-cart-item__controls {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding-top: 0.2rem;
+    }
+
+    .imidjstroy-cart-summary__card {
+        padding: 1.15rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .imidjstroy-cart-item {
+        padding: 0.85rem;
+    }
+
+    .imidjstroy-cart-item__remove span {
+        display: none;
+    }
+
+    .imidjstroy-cart-item__remove {
+        width: 2.25rem !important;
+        padding: 0 !important;
+    }
+}
+
+
+/* =========================================================
+   WooCommerce AJAX add-to-cart UI
+   ========================================================= */
+
+/* The original add-to-cart icon button must never change size. */
+.popular-product-card__action--cart,
+.category-product-card__button--cart {
+    flex: 0 0 2rem !important;
+    width: 2rem !important;
+    min-width: 2rem !important;
+    max-width: 2rem !important;
+    height: 2rem !important;
+    min-height: 2rem !important;
+    padding: 0 !important;
+}
+
+/* WooCommerce adds the .added class after a successful AJAX request.
+   Hide the cart SVG and draw a clean check icon instead. */
+.popular-product-card__action--cart.added svg,
+.category-product-card__button--cart.added svg {
+    display: none !important;
+}
+
+.popular-product-card__action--cart.added::before,
+.category-product-card__button--cart.added::before {
+    content: "";
+    display: block;
+    width: 0.45rem;
+    height: 0.75rem;
+    margin-top: -0.15rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+}
+
+/* Remove WooCommerce loading/added decorative pseudo-elements
+   that could alter the compact icon button. */
+.popular-product-card__action--cart.loading::after,
+.popular-product-card__action--cart.added::after,
+.category-product-card__button--cart.loading::after,
+.category-product-card__button--cart.added::after {
+    display: none !important;
+}
+
+/* WooCommerce inserts its "View cart" link next to the add button.
+   Turn it into a proper compact button. */
+.popular-product-card__actions .added_to_cart.wc-forward,
+.category-product-card__actions .added_to_cart.wc-forward {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    height: 2rem !important;
+    min-height: 2rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 0.7rem !important;
+    border: 1px solid hsl(var(--primary)) !important;
+    border-radius: calc(var(--radius) - 2px) !important;
+    background: hsl(var(--background)) !important;
+    color: hsl(var(--primary)) !important;
+    font-size: 0.75rem !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.popular-product-card__actions .added_to_cart.wc-forward:hover,
+.category-product-card__actions .added_to_cart.wc-forward:hover {
+    background: hsl(var(--primary)) !important;
+    color: hsl(var(--primary-foreground)) !important;
+}
+
+/* =========================================================
+   HOME SECTION VISUAL RHYTHM + UNIFIED PRODUCT CARDS
+   ========================================================= */
+
+/* One subtle accent divider before the Categories block. */
+.home-features {
+    border-bottom: 0 !important;
+}
+
+.home-categories {
+    background: hsl(var(--background));
+    border-top: 1px solid hsl(var(--primary) / 0.28);
+    border-bottom: 0;
+}
+
+/* Clear but soft alternating rhythm for the product sections. */
+.home-building {
+    background: hsl(var(--accent));
+    border: 0;
+}
+
+.home-ad-materials {
+    background: hsl(var(--background));
+    border: 0;
+}
+
+.home-popular {
+    background: hsl(var(--accent));
+    border: 0;
+}
+
+/* All home product sections now render the same shared product-card.php.
+   Keep grids consistent so every card has the same width and behaviour. */
+.home-building__grid,
+.home-ad-materials__grid,
+.home-popular__grid {
+    align-items: stretch;
+}
+
+/* Generic class aliases are present in the shared template. These rules
+   make the generic name safe to use for future product-card extensions. */
+.product-card {
+    height: 100%;
+}
+
+.product-card__name a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.product-card__name a:hover {
+    color: hsl(var(--primary));
+}
+
+/* The shared card uses the compact icon actions from Popular Products. */
+.product-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.product-card__action--cart {
+    flex: 0 0 2rem !important;
+    width: 2rem !important;
+    min-width: 2rem !important;
+    max-width: 2rem !important;
+    height: 2rem !important;
+    min-height: 2rem !important;
+}
+
+.product-card__action--cart.added svg {
+    display: none !important;
+}
+
+.product-card__action--cart.added::before {
+    content: "";
+    display: block;
+    width: 0.45rem;
+    height: 0.75rem;
+    margin-top: -0.15rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+}
+
+.product-card__action--cart.loading::after,
+.product-card__action--cart.added::after {
+    display: none !important;
+}
+
+
+/* =========================================================
+   CART GLOBAL NOTICE — CLASSIC SHORTCODE
+   WooCommerce prints cart notices before our cart template.
+   ========================================================= */
+
+body.woocommerce-cart .woocommerce-notices-wrapper {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    box-sizing: border-box;
+}
+
+body.woocommerce-cart .woocommerce-notices-wrapper:empty {
+    display: none !important;
+}
+
+/* Handle both wrapped and directly printed WooCommerce notices. */
+body.woocommerce-cart .woocommerce-message,
+body.woocommerce-cart .woocommerce-error,
+body.woocommerce-cart .woocommerce-info {
+    width: calc(100% - 2rem) !important;
+    max-width: 1280px !important;
+    margin: 1rem auto 0 !important;
+    padding: 0.8rem 1rem 0.8rem 3rem !important;
+    box-sizing: border-box !important;
+
+    border: 1px solid hsl(var(--primary) / 0.22) !important;
+    border-top: 1px solid hsl(var(--primary) / 0.22) !important;
+    border-bottom: 1px solid hsl(var(--primary) / 0.22) !important;
+    border-radius: 0.5rem !important;
+
+    background: hsl(var(--primary) / 0.055) !important;
+    color: hsl(var(--foreground)) !important;
+    box-shadow: none !important;
+}
+
+/* Remove any WooCommerce/theme pseudo-element that may create an extra
+   blue/colored line under the notice. */
+body.woocommerce-cart .woocommerce-message::after,
+body.woocommerce-cart .woocommerce-error::after,
+body.woocommerce-cart .woocommerce-info::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Keep the success icon in the accent color. */
+body.woocommerce-cart .woocommerce-message::before {
+    color: hsl(var(--primary)) !important;
+}
+
+/* Undo is a real action — make it visibly clickable. */
+body.woocommerce-cart .woocommerce-message a.restore-item,
+body.woocommerce-cart .woocommerce-message .restore-item {
+    float: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-height: 2rem !important;
+    margin: 0 0 0 0.7rem !important;
+    padding: 0.35rem 0.85rem !important;
+
+    border: 1px solid hsl(var(--primary)) !important;
+    border-radius: 0.45rem !important;
+    background: hsl(var(--primary)) !important;
+    color: hsl(var(--primary-foreground)) !important;
+
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+
+    cursor: pointer !important;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+body.woocommerce-cart .woocommerce-message a.restore-item:hover,
+body.woocommerce-cart .woocommerce-message a.restore-item:focus-visible,
+body.woocommerce-cart .woocommerce-message .restore-item:hover,
+body.woocommerce-cart .woocommerce-message .restore-item:focus-visible {
+    border-color: hsl(var(--primary) / 0.85) !important;
+    background: hsl(var(--primary) / 0.85) !important;
+    color: hsl(var(--primary-foreground)) !important;
+    text-decoration: none !important;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.08) !important;
+}
+
+@media (max-width: 640px) {
+    body.woocommerce-cart .woocommerce-message,
+    body.woocommerce-cart .woocommerce-error,
+    body.woocommerce-cart .woocommerce-info {
+        width: calc(100% - 1rem) !important;
+        padding: 0.75rem 0.8rem 0.75rem 2.7rem !important;
+    }
+
+    body.woocommerce-cart .woocommerce-message a.restore-item,
+    body.woocommerce-cart .woocommerce-message .restore-item {
+        margin-top: 0.5rem !important;
+        margin-left: 0 !important;
     }
 }

@@ -161,3 +161,74 @@ add_action(
     'admin_post_imidjstroy_contact_form',
     'imidjstroy_handle_contact_form'
 );
+
+/* =========================================================
+   PRODUCT CARD HELPERS
+========================================================= */
+
+if ( ! function_exists( 'imidjstroy_product_unit' ) ) {
+    function imidjstroy_product_unit( $product ) {
+        if ( ! ( $product instanceof WC_Product ) ) {
+            return 'шт.';
+        }
+
+        $candidates = [
+            $product->get_meta( '_imidjstroy_unit', true ),
+            $product->get_attribute( 'pa_unit' ),
+            $product->get_meta( 'unit', true ),
+            $product->get_meta( '_unit', true ),
+            $product->get_attribute( 'Единица измерения' ),
+        ];
+
+        foreach ( $candidates as $candidate ) {
+            $candidate = trim( (string) $candidate );
+
+            if ( '' !== $candidate ) {
+                return $candidate;
+            }
+        }
+
+        return 'шт.';
+    }
+}
+
+if ( ! function_exists( 'imidjstroy_unit_label' ) ) {
+    function imidjstroy_unit_label( $quantity, $unit ) {
+        $unit       = trim( (string) $unit );
+        $normalized = mb_strtolower( str_replace( '.', '', $unit ) );
+
+        if ( 'шт' === $normalized ) {
+            return 'шт.';
+        }
+
+        if ( 'м' === $normalized ) {
+            return 'м';
+        }
+
+        if ( in_array( $normalized, [ 'м2', 'м²' ], true ) ) {
+            return 'м²';
+        }
+
+        if ( in_array( $normalized, [ 'м3', 'м³' ], true ) ) {
+            return 'м³';
+        }
+
+        return '' !== $unit ? $unit : 'шт.';
+    }
+}
+
+/* =========================================================
+   CART NOTICES
+========================================================= */
+
+/**
+ * Make the removed-item notice read naturally in Russian:
+ * "Товар «Название» удалён."
+ */
+function imidjstroy_cart_removed_item_title( $title, $cart_item ) {
+    unset( $cart_item );
+
+    return 'Товар ' . $title;
+}
+add_filter( 'woocommerce_cart_item_removed_title', 'imidjstroy_cart_removed_item_title', 10, 2 );
+
