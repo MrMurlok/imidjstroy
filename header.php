@@ -20,7 +20,16 @@ if ( function_exists( 'WC' ) && WC()->cart ) {
     $cart_count = WC()->cart->get_cart_contents_count();
 }
 
-$is_logged_in = is_user_logged_in();
+$is_logged_in         = is_user_logged_in();
+$site_company_name    = imidjstroy_get_site_setting( 'company_name' );
+$site_company_tagline = imidjstroy_get_site_setting( 'company_tagline' );
+$site_phone_1         = imidjstroy_get_site_setting( 'phone_1' );
+$site_phone_2         = imidjstroy_get_site_setting( 'phone_2' );
+$site_email           = imidjstroy_get_site_setting( 'public_email' );
+$site_address         = imidjstroy_get_site_setting( 'address' );
+$site_hours_topbar    = imidjstroy_get_site_setting( 'hours_topbar' );
+$site_telegram_url    = imidjstroy_get_site_setting( 'telegram_url' );
+$site_max_url         = imidjstroy_get_site_setting( 'max_url' );
 ?>
 
 <div class="site-shell">
@@ -42,7 +51,7 @@ $is_logged_in = is_user_logged_in();
                     </span>
 
                     <span>
-                        г. Владивосток, ул. Иртышская, 17А, стр. 4
+                        <?php echo esc_html( $site_address ); ?>
                     </span>
                 </button>
 
@@ -55,7 +64,7 @@ $is_logged_in = is_user_logged_in();
                     </span>
 
                     <span>
-                        09:00 - 22:00 / БЕЗ ВЫХОДНЫХ
+                        <?php echo esc_html( $site_hours_topbar ); ?>
                     </span>
                 </div>
 
@@ -65,7 +74,7 @@ $is_logged_in = is_user_logged_in();
 
                 <div class="topbar__socials">
                     <a
-                        href="https://t.me/imidjstroy"
+                        href="<?php echo esc_url( $site_telegram_url ); ?>"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Telegram"
@@ -77,7 +86,7 @@ $is_logged_in = is_user_logged_in();
                     </a>
 
 <a
-    href="https://max.ru/username"
+    href="<?php echo esc_url( $site_max_url ); ?>"
     target="_blank"
     rel="noopener noreferrer"
     aria-label="MAX"
@@ -102,23 +111,23 @@ $is_logged_in = is_user_logged_in();
                 </div>
 
                 <div class="topbar__phones topbar__phones--mobile">
-                    <a href="tel:+74232677715">
-                        +7 (423) 267-77-15
+                    <a href="<?php echo esc_attr( imidjstroy_phone_href( $site_phone_2 ) ); ?>">
+                        <?php echo esc_html( $site_phone_2 ); ?>
                     </a>
 
-                    <a href="tel:+79644492229">
-                        +7 (964) 449-22-29
+                    <a href="<?php echo esc_attr( imidjstroy_phone_href( $site_phone_1 ) ); ?>">
+                        <?php echo esc_html( $site_phone_1 ); ?>
                     </a>
                 </div>
 
                 <div class="topbar__phones topbar__phones--desktop">
-                    <span>+7 (423) 267-77-15</span>
+                    <span><?php echo esc_html( $site_phone_2 ); ?></span>
                     <span class="topbar__separator">|</span>
-                    <span>+7 (964) 449-22-29</span>
+                    <span><?php echo esc_html( $site_phone_1 ); ?></span>
                 </div>
 
                 <a
-                    href="mailto:mail@имидж-строй.рф"
+                    href="mailto:<?php echo esc_attr( antispambot( $site_email ) ); ?>"
                     class="topbar__item topbar__email"
                 >
                     <span class="topbar__icon">
@@ -128,7 +137,7 @@ $is_logged_in = is_user_logged_in();
                         </svg>
                     </span>
 
-                    <span>mail@имидж-строй.рф</span>
+                    <span><?php echo esc_html( antispambot( $site_email ) ); ?></span>
                 </a>
 
             </div>
@@ -151,11 +160,11 @@ $is_logged_in = is_user_logged_in();
 
                 <span class="site-logo__text">
                     <span class="site-logo__title">
-                        ИмиджСтрой
+                        <?php echo esc_html( $site_company_name ); ?>
                     </span>
 
                     <span class="site-logo__subtitle">
-                        Стройматериалы
+                        <?php echo esc_html( $site_company_tagline ); ?>
                     </span>
                 </span>
             </a>

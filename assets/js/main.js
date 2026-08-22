@@ -422,3 +422,143 @@ document.addEventListener('DOMContentLoaded', function () {
         );
     }
 });
+
+/* =========================================================
+   CHECKOUT
+========================================================= */
+
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form.woocommerce-checkout');
+
+    if (!form) {
+        return;
+    }
+
+    function selectedDelivery() {
+        return form.querySelector('input[name="imidjstroy_delivery_method"]:checked');
+    }
+
+    function selectedPayment() {
+        return form.querySelector('input[name="payment_method"]:checked');
+    }
+
+    function syncDeliveryUI(triggerCheckoutUpdate) {
+        const selected = selectedDelivery();
+        const method = selected ? selected.value : 'pickup';
+        const addressWrap = form.querySelector('.js-delivery-address');
+        const addressInput = form.querySelector('#imidjstroy_delivery_address');
+        const summaryLabel = form.querySelector('.js-checkout-delivery-label');
+
+        if (addressWrap) {
+            addressWrap.hidden = method !== 'delivery';
+        }
+
+        if (addressInput) {
+            addressInput.required = method === 'delivery';
+            addressInput.setAttribute('aria-required', method === 'delivery' ? 'true' : 'false');
+        }
+
+        if (summaryLabel) {
+            summaryLabel.textContent = method === 'delivery' ? 'Доставка' : 'Самовывоз';
+        }
+
+        if (triggerCheckoutUpdate && window.jQuery) {
+            window.jQuery(document.body).trigger('update_checkout');
+        }
+    }
+
+    function syncPaymentUI() {
+        const selected = selectedPayment();
+        const summaryLabel = form.querySelector('.js-checkout-payment-label');
+
+        if (!selected || !summaryLabel) {
+            return;
+        }
+
+        const label = form.querySelector('label[for="' + CSS.escape(selected.id) + '"] .imidjstroy-payment-method__title');
+
+        if (label) {
+            summaryLabel.textContent = label.textContent.trim();
+        }
+    }
+
+    form.addEventListener('change', function (event) {
+        const target = event.target;
+
+        if (!(target instanceof HTMLInputElement)) {
+            return;
+        }
+
+        if (target.name === 'imidjstroy_delivery_method') {
+            syncDeliveryUI(true);
+            return;
+        }
+
+        if (target.name === 'payment_method') {
+            window.setTimeout(syncPaymentUI, 0);
+        }
+    });
+
+    syncDeliveryUI(false);
+    syncPaymentUI();
+
+    if (window.jQuery) {
+        window.jQuery(document.body).on('updated_checkout', function () {
+            syncDeliveryUI(false);
+            syncPaymentUI();
+        });
+    }
+});
+
+/* =========================================================
+   MY ACCOUNT PASSWORD TOGGLES
+   ========================================================= */
+
+document.addEventListener('click', function (event) {
+    const toggle = event.target.closest('[data-password-toggle]');
+
+    if (!toggle) {
+        return;
+    }
+
+    const targetId = toggle.getAttribute('data-password-toggle');
+    const input = document.getElementById(targetId);
+
+    if (!input) {
+        return;
+    }
+
+    const makeVisible = input.type === 'password';
+    input.type = makeVisible ? 'text' : 'password';
+    toggle.classList.toggle('is-visible', makeVisible);
+    toggle.setAttribute('aria-label', makeVisible ? 'Скрыть пароль' : 'Показать пароль');
+});
+
+
+/* =========================================================
+   CONTACTS CAPTCHA REFRESH
+========================================================= */
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('[data-captcha-refresh]').forEach(function (button) {
+        button.addEventListener('click', function () {
+            const form = button.closest('form');
+            if (!form) return;
+
+            const a = Math.floor(Math.random() * 10) + 1;
+            const b = Math.floor(Math.random() * 10) + 1;
+            const aInput = form.querySelector('[data-captcha-a]');
+            const bInput = form.querySelector('[data-captcha-b]');
+            const question = form.querySelector('[data-captcha-question]');
+            const answer = form.querySelector('input[name="captcha"]');
+
+            if (aInput) aInput.value = String(a);
+            if (bInput) bInput.value = String(b);
+            if (question) question.textContent = a + ' + ' + b;
+            if (answer) {
+                answer.value = '';
+                answer.focus();
+            }
+        });
+    });
+});

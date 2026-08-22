@@ -7,6 +7,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 $status = isset( $_GET['contact_status'] )
     ? sanitize_key( wp_unslash( $_GET['contact_status'] ) )
     : '';
+
+$site_phone_1 = imidjstroy_get_site_setting( 'phone_1' );
+$site_phone_2 = imidjstroy_get_site_setting( 'phone_2' );
+$site_address = imidjstroy_get_site_setting( 'address' );
 ?>
 
 <section class="home-contact">
@@ -26,8 +30,8 @@ $status = isset( $_GET['contact_status'] )
                             <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.4 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c1 .3 1.9.6 2.9.7A2 2 0 0 1 22 16.9Z"></path>
                         </svg>
 
-                        <a href="tel:+79644492229">
-                            +7 (964) 449-22-29
+                        <a href="<?php echo esc_attr( imidjstroy_phone_href( $site_phone_1 ) ); ?>">
+                            <?php echo esc_html( $site_phone_1 ); ?>
                         </a>
                     </li>
 
@@ -36,8 +40,8 @@ $status = isset( $_GET['contact_status'] )
                             <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.4 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c1 .3 1.9.6 2.9.7A2 2 0 0 1 22 16.9Z"></path>
                         </svg>
 
-                        <a href="tel:+74232677715">
-                            +7 (423) 267-77-15
+                        <a href="<?php echo esc_attr( imidjstroy_phone_href( $site_phone_2 ) ); ?>">
+                            <?php echo esc_html( $site_phone_2 ); ?>
                         </a>
                     </li>
 
@@ -48,7 +52,7 @@ $status = isset( $_GET['contact_status'] )
                         </svg>
 
                         <span>
-                            г. Владивосток, Иртышская ул., 17А, стр. 4
+                            <?php echo esc_html( $site_address ); ?>
                         </span>
                     </li>
                 </ul>

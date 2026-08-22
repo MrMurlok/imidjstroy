@@ -5,6 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 get_header();
+
+$site_phone_1  = imidjstroy_get_site_setting( 'phone_1' );
+$site_city      = imidjstroy_get_site_setting( 'city_short' );
 ?>
 
 <section class="home-hero">
@@ -51,12 +54,12 @@ get_header();
             </div>
 
             <div class="home-hero__meta">
-                <a href="tel:+79644492229" class="home-hero__meta-item">
+                <a href="<?php echo esc_attr( imidjstroy_phone_href( $site_phone_1 ) ); ?>" class="home-hero__meta-item">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.4 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c1 .3 1.9.6 2.9.7A2 2 0 0 1 22 16.9Z"></path>
                     </svg>
 
-                    <span>+7 (964) 449-22-29</span>
+                    <span><?php echo esc_html( $site_phone_1 ); ?></span>
                 </a>
 
                 <span class="home-hero__meta-item">
@@ -65,7 +68,7 @@ get_header();
                         <circle cx="12" cy="10" r="2.5"></circle>
                     </svg>
 
-                    <span>Владивосток</span>
+                    <span><?php echo esc_html( $site_city ); ?></span>
                 </span>
             </div>
 

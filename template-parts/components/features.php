@@ -18,7 +18,7 @@ $features = [
     [
         'icon'        => 'clock',
         'title'       => 'Удобное время',
-        'description' => 'Работаем ежедневно с 11:00 до 19:00',
+        'description' => imidjstroy_get_site_setting( 'hours_feature' ),
     ],
     [
         'icon'        => 'headphones',

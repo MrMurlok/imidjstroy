@@ -3,9 +3,16 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$address = 'г. Владивосток, ул. Иртышская, 17А, стр. 4';
-$map_link = 'https://go.2gis.com/IlQJm';
-$route_link = 'https://2gis.ru/vladivostok/directions/points/%7C131.918791%2C43.162781%3B70000001079958540';
+$address            = imidjstroy_get_site_setting( 'address' );
+$map_link           = imidjstroy_get_site_setting( 'map_open_url' );
+$route_link         = imidjstroy_get_site_setting( 'map_route_url' );
+$map_widget_url     = imidjstroy_map_widget_url();
+$site_phone_1       = imidjstroy_get_site_setting( 'phone_1' );
+$site_phone_2       = imidjstroy_get_site_setting( 'phone_2' );
+$site_email         = imidjstroy_get_site_setting( 'public_email' );
+$site_hours_footer  = imidjstroy_get_site_setting( 'hours_footer' );
+$site_company_name  = imidjstroy_get_site_setting( 'company_name' );
+$footer_description = imidjstroy_get_site_setting( 'footer_description' );
 ?>
 
 </main>
@@ -17,11 +24,11 @@ $route_link = 'https://2gis.ru/vladivostok/directions/points/%7C131.918791%2C43.
             <div class="site-footer__column">
                 <div class="site-footer__brand">
                     <div class="site-footer__brand-mark">С</div>
-                    <span class="site-footer__brand-name">ИмиджСтрой</span>
+                    <span class="site-footer__brand-name"><?php echo esc_html( $site_company_name ); ?></span>
                 </div>
 
                 <p class="site-footer__description">
-                    Мы предлагаем широкий ассортимент качественных строительных материалов по конкурентным ценам.
+                    <?php echo esc_html( $footer_description ); ?>
                 </p>
             </div>
 
@@ -58,8 +65,8 @@ $route_link = 'https://2gis.ru/vladivostok/directions/points/%7C131.918791%2C43.
                         </span>
 
                         <div>
-                            <a href="tel:+79644492229">+7 (964) 449-22-29</a>
-                            <a href="tel:+74232677715">+7 (423) 267-77-15</a>
+                            <a href="<?php echo esc_attr( imidjstroy_phone_href( $site_phone_1 ) ); ?>"><?php echo esc_html( $site_phone_1 ); ?></a>
+                            <a href="<?php echo esc_attr( imidjstroy_phone_href( $site_phone_2 ) ); ?>"><?php echo esc_html( $site_phone_2 ); ?></a>
                         </div>
                     </li>
 
@@ -87,7 +94,7 @@ $route_link = 'https://2gis.ru/vladivostok/directions/points/%7C131.918791%2C43.
                             </svg>
                         </span>
 
-                        <span>Ежедневно 09:00 до 22:00. Без выходных.</span>
+                        <span><?php echo esc_html( $site_hours_footer ); ?></span>
                     </li>
 
                     <li>
@@ -98,7 +105,7 @@ $route_link = 'https://2gis.ru/vladivostok/directions/points/%7C131.918791%2C43.
                             </svg>
                         </span>
 
-                        <a href="mailto:mail@имидж-строй.рф">mail@имидж-строй.рф</a>
+                        <a href="mailto:<?php echo esc_attr( antispambot( $site_email ) ); ?>"><?php echo esc_html( antispambot( $site_email ) ); ?></a>
                     </li>
                 </ul>
             </div>
@@ -176,7 +183,7 @@ $route_link = 'https://2gis.ru/vladivostok/directions/points/%7C131.918791%2C43.
 
             <div class="map-modal__map">
                <iframe
-    src="https://widgets.2gis.com/widget?type=firmsonmap&options=%7B%22pos%22%3A%7B%22lat%22%3A43.162781%2C%22lon%22%3A131.918791%2C%22zoom%22%3A17%7D%2C%22opt%22%3A%7B%22city%22%3A%22vladivostok%22%7D%2C%22org%22%3A%2270000001079958540%22%7D"
+    src="<?php echo esc_url( $map_widget_url ); ?>"
     width="100%"
     height="320"
     frameborder="0"
