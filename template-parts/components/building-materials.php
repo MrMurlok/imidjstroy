@@ -4,6 +4,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+$args = wp_parse_args( isset( $args ) && is_array( $args ) ? $args : [], [ 'title' => 'Стройматериалы', 'link_text' => 'Смотреть все', 'count' => 8 ] );
+$args['count'] = max( 1, min( 12, absint( $args['count'] ) ) );
+
 $building_products = [];
 $building_parent   = null;
 
@@ -29,7 +32,7 @@ if ( class_exists( 'WooCommerce' ) && taxonomy_exists( 'product_cat' ) ) {
         $query = new WP_Query( [
             'post_type'      => 'product',
             'post_status'    => 'publish',
-            'posts_per_page' => 8,
+            'posts_per_page' => $args['count'],
             'orderby'        => 'date',
             'order'          => 'DESC',
             'tax_query'      => [
@@ -52,7 +55,7 @@ if ( class_exists( 'WooCommerce' ) && taxonomy_exists( 'product_cat' ) ) {
     <div class="container">
 
         <div class="home-building__heading">
-            <h2 class="home-building__title">Стройматериалы</h2>
+            <h2 class="home-building__title"><?php echo esc_html( $args['title'] ); ?></h2>
 
             <a
                 href="<?php
@@ -64,7 +67,7 @@ if ( class_exists( 'WooCommerce' ) && taxonomy_exists( 'product_cat' ) ) {
                 ?>"
                 class="home-building__all"
             >
-                Смотреть все
+                <?php echo esc_html( $args['link_text'] ); ?>
 
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M5 12h14"></path>

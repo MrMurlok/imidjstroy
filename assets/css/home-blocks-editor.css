@@ -1,0 +1,1085 @@
+.imidjstroy-editor-block{border:1px solid #dfe3e8;border-radius:12px;padding:22px;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.04);font-family:Ubuntu,system-ui,sans-serif}.imidjstroy-editor-block__badge{display:inline-flex;padding:5px 9px;border-radius:999px;background:rgba(22,163,74,.1);color:#168f44;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}.imidjstroy-editor-block h3{margin:10px 0 4px;font-size:22px}.imidjstroy-editor-block>p{margin:0 0 18px;color:#667085}.imidjstroy-editor-fields{display:grid;gap:12px}.imidjstroy-editor-features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.imidjstroy-editor-mini{padding:12px;border:1px solid #e6e8eb;border-radius:9px;background:#f8f9fa}@media(max-width:780px){.imidjstroy-editor-features{grid-template-columns:1fr}}
+
+/* Native Gutenberg block wrapper for Imidjstroy home sections */
+.editor-styles-wrapper .imidjstroy-editor-block-wrap {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+.editor-styles-wrapper .imidjstroy-editor-block-wrap > .imidjstroy-editor-block {
+    width: 100%;
+    border: 1px solid #d9dee5;
+    border-radius: 14px;
+    padding: 22px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(16, 24, 40, 0.05);
+    transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.editor-styles-wrapper .imidjstroy-editor-block-wrap.is-selected > .imidjstroy-editor-block,
+.editor-styles-wrapper .imidjstroy-editor-block-wrap.has-child-selected > .imidjstroy-editor-block {
+    border-color: #22a862;
+    box-shadow: 0 0 0 2px rgba(34, 168, 98, 0.10), 0 8px 24px rgba(16, 24, 40, 0.06);
+}
+
+.editor-styles-wrapper .imidjstroy-editor-block-wrap .components-base-control {
+    width: 100%;
+}
+
+.editor-styles-wrapper .imidjstroy-editor-block-wrap .components-text-control__input,
+.editor-styles-wrapper .imidjstroy-editor-block-wrap .components-textarea-control__input,
+.editor-styles-wrapper .imidjstroy-editor-block-wrap .components-select-control__input {
+    min-height: 40px;
+}
+
+.editor-styles-wrapper .imidjstroy-editor-block-wrap .components-textarea-control__input {
+    min-height: 90px;
+}
+
+.editor-styles-wrapper .imidjstroy-editor-block__badge {
+    margin-bottom: 4px;
+}
+
+@media (max-width: 782px) {
+    .editor-styles-wrapper .imidjstroy-editor-block-wrap > .imidjstroy-editor-block {
+        padding: 16px;
+    }
+}
+
+
+/* =========================================================
+   FLEXIBLE SECTION — editor canvas
+   ========================================================= */
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    overflow: hidden;
+    border: 1px dashed #b8c2cc;
+    border-radius: 14px;
+    background-color: #fff;
+    background-size: cover;
+    background-position: center;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,var(--imidjstroy-section-overlay,0));
+    pointer-events: none;
+    z-index: 0;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section > * {
+    position: relative;
+    z-index: 1;
+}
+
+.editor-styles-wrapper .imidjstroy-flex-section__editor-label {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    z-index: 5;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(34,168,98,.1);
+    color: #178348;
+    font-size: 11px;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.editor-styles-wrapper .imidjstroy-flex-section__inner {
+    position: relative;
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 20px;
+}
+.editor-styles-wrapper .imidjstroy-flex-section__inner--container { max-width: 1280px; }
+.editor-styles-wrapper .imidjstroy-flex-section__inner--narrow { max-width: 820px; }
+.editor-styles-wrapper .imidjstroy-flex-section__inner--wide { max-width: none; }
+
+.editor-styles-wrapper .imidjstroy-flex-section--pad-none { padding-block: 12px; }
+.editor-styles-wrapper .imidjstroy-flex-section--pad-small { padding-block: 28px; }
+.editor-styles-wrapper .imidjstroy-flex-section--pad-medium { padding-block: 44px; }
+.editor-styles-wrapper .imidjstroy-flex-section--pad-large { padding-block: 64px; }
+.editor-styles-wrapper .imidjstroy-flex-section--pad-xlarge { padding-block: 88px; }
+
+.editor-styles-wrapper .imidjstroy-flex-section--gray { background-color: #f6f7f8; }
+.editor-styles-wrapper .imidjstroy-flex-section--soft-green { background-color: #f2fbf6; }
+.editor-styles-wrapper .imidjstroy-flex-section--green { background-color: #22a862; color: #fff; }
+.editor-styles-wrapper .imidjstroy-flex-section--dark { background-color: #202326; color: #fff; }
+
+.editor-styles-wrapper .wp-block-imidjstroy-section.is-selected,
+.editor-styles-wrapper .wp-block-imidjstroy-section.has-child-selected {
+    border-color: #22a862;
+    box-shadow: 0 0 0 2px rgba(34,168,98,.12);
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .block-editor-inner-blocks,
+.editor-styles-wrapper .wp-block-imidjstroy-section .block-editor-block-list__layout {
+    width: 100%;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .block-list-appender {
+    margin-top: 14px;
+}
+
+.imidjstroy-editor-media-control {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+
+/* =========================================================
+   FLEXIBLE SECTION — real InnerBlocks editor canvas
+   ========================================================= */
+
+.editor-styles-wrapper .imidjstroy-flex-section {
+    position: relative;
+    min-height: 180px;
+    border: 2px dashed #b8c2cc;
+    border-radius: 16px;
+    background-color: #fff;
+}
+
+.editor-styles-wrapper .imidjstroy-flex-section.is-selected,
+.editor-styles-wrapper .imidjstroy-flex-section.has-child-selected {
+    border-color: #22a862;
+    box-shadow: 0 0 0 3px rgba(34, 168, 98, 0.08);
+}
+
+.editor-styles-wrapper .imidjstroy-flex-section__editor-label {
+    display: inline-flex;
+    margin: 16px 18px 0;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: #e9f8f0;
+    color: #12824b;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.editor-styles-wrapper .imidjstroy-flex-section__editor-canvas {
+    padding: 12px 18px 18px;
+}
+
+.editor-styles-wrapper .imidjstroy-flex-section__editor-help {
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    border: 1px solid #dce4ea;
+    border-radius: 8px;
+    background: #f7f9fa;
+    color: #59636e;
+    font-size: 12px;
+}
+
+.editor-styles-wrapper .imidjstroy-flex-section__inner {
+    position: relative;
+    min-height: 110px;
+    padding: 16px;
+    border: 1px solid #e1e6ea;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .92);
+}
+
+.editor-styles-wrapper .imidjstroy-flex-section__inner > .block-editor-inner-blocks,
+.editor-styles-wrapper .imidjstroy-flex-section__inner > .block-editor-inner-blocks > .block-editor-block-list__layout {
+    min-height: 72px;
+}
+
+.editor-styles-wrapper .imidjstroy-flex-section__inner .block-list-appender {
+    position: relative;
+    margin-top: 12px;
+}
+
+.editor-styles-wrapper .imidjstroy-flex-section__inner .block-list-appender__toggle {
+    width: auto !important;
+    min-width: 150px;
+    height: 38px !important;
+    padding: 0 14px !important;
+    border: 1px dashed #22a862 !important;
+    border-radius: 8px !important;
+    color: #12824b !important;
+    background: #f0fbf5 !important;
+}
+
+.editor-styles-wrapper .imidjstroy-flex-section__inner .block-list-appender__toggle::after {
+    content: " Добавить элемент";
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.editor-styles-wrapper .imidjstroy-flex-section__inner .wp-block {
+    max-width: none;
+}
+
+
+/* =========================================================
+   WYSIWYG EDITOR — site-like canvas
+   ========================================================= */
+
+.editor-styles-wrapper {
+    --background: 0 0% 100%;
+    --foreground: 216 8% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 216 8% 12%;
+    --primary: 148 67% 39%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 216 8% 12%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 228 8% 88%;
+    --muted-foreground: 220 9% 45%;
+    --accent: 228 8% 96%;
+    --border: 228 8% 88%;
+    --radius: 0.5rem;
+    font-family: "Ubuntu", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.editor-styles-wrapper .imidjstroy-editor-block-wrap {
+    max-width: none !important;
+}
+
+/* -------------------------
+   Hero visual editor
+   ------------------------- */
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero.imidjstroy-editor-block-wrap {
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor.home-hero {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 480px;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 2px;
+    background: #202326;
+    box-shadow: 0 8px 28px rgb(0 0 0 / 0.08);
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero.is-selected .imidjstroy-hero-editor,
+.editor-styles-wrapper .wp-block-imidjstroy-hero.has-child-selected .imidjstroy-hero-editor {
+    box-shadow:
+        0 0 0 3px rgb(34 168 98 / 0.15),
+        0 8px 28px rgb(0 0 0 / 0.08);
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__background,
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__background {
+    z-index: 0;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__overlay {
+    z-index: 1;
+    background: rgb(32 35 38 / 0.70);
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding: 64px 32px;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__content {
+    max-width: 576px;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__title {
+    margin: 0 0 16px;
+    color: #fff;
+    font-size: clamp(36px, 4vw, 48px);
+    font-weight: 700;
+    line-height: 1.18;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__title-first,
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__title-accent {
+    display: block;
+    min-width: 1px;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__title-first {
+    color: #fff;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__title-accent {
+    margin-top: 8px;
+    color: #22a862;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__text {
+    margin: 0 0 28px;
+    color: rgb(255 255 255 / 0.82);
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__button {
+    display: inline-flex;
+    min-width: 148px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 26px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: text;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__button--primary {
+    background: #22a862;
+    color: #fff;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__button--outline {
+    border-color: rgb(255 255 255 / 0.55);
+    background: transparent;
+    color: #fff;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__button svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    color: rgb(255 255 255 / 0.72);
+    font-size: 14px;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.editor-styles-wrapper .imidjstroy-hero-editor .home-hero__meta-item svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Editable text gets a subtle focus indication only while editing. */
+.editor-styles-wrapper .imidjstroy-hero-editor [contenteditable="true"]:focus {
+    outline: 1px dashed rgb(255 255 255 / 0.55);
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+/* -------------------------
+   Flexible section visual editor
+   ------------------------- */
+
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section {
+    width: 100%;
+    max-width: none !important;
+    min-height: 120px;
+    overflow: hidden;
+    border: 0 !important;
+    border-radius: 0;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: none;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section.is-selected,
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section.has-child-selected {
+    box-shadow: inset 0 0 0 2px rgb(34 168 98 / 0.30) !important;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: rgb(0 0 0 / var(--imidjstroy-section-overlay, 0));
+    pointer-events: none;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section > * {
+    position: relative;
+    z-index: 1;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .imidjstroy-flex-section__inner {
+    width: 100%;
+    min-height: 64px;
+    margin-inline: auto;
+    padding-inline: 24px;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .imidjstroy-flex-section__inner--container {
+    max-width: 1280px;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .imidjstroy-flex-section__inner--narrow {
+    max-width: 820px;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .imidjstroy-flex-section__inner--wide {
+    max-width: none;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section--pad-none { padding-block: 0; }
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section--pad-small { padding-block: 32px; }
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section--pad-medium { padding-block: 48px; }
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section--pad-large { padding-block: 64px; }
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section--pad-xlarge { padding-block: 96px; }
+
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section--white { background-color: #fff; color: #202326; }
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section--gray { background-color: #f6f7f8; color: #202326; }
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section--soft-green { background-color: #f2fbf6; color: #202326; }
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section--green { background-color: #22a862; color: #fff; }
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section--dark { background-color: #202326; color: #fff; }
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .block-editor-block-list__layout {
+    min-height: 48px;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .wp-block {
+    max-width: none;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .wp-block-heading {
+    margin-top: 0;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .wp-block-columns {
+    gap: clamp(20px, 3vw, 48px);
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .wp-block-image img,
+.editor-styles-wrapper .wp-block-imidjstroy-section .wp-block-gallery img {
+    border-radius: 12px;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .wp-block-buttons {
+    gap: 12px;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .wp-block-button__link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 18px;
+    border-radius: 8px;
+    background: #22a862;
+    color: #fff;
+    font-weight: 600;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section--green .wp-block-button__link,
+.editor-styles-wrapper .wp-block-imidjstroy-section.imidjstroy-flex-section--dark .wp-block-button__link {
+    background: #fff;
+    color: #202326;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .block-list-appender {
+    margin-top: 12px;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .block-list-appender__toggle {
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    border: 1px solid rgb(34 168 98 / 0.45) !important;
+    border-radius: 50% !important;
+    background: rgb(255 255 255 / 0.92) !important;
+    color: #178348 !important;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.06);
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-section .block-list-appender__toggle::after {
+    content: none !important;
+}
+
+@media (max-width: 782px) {
+    .editor-styles-wrapper .imidjstroy-hero-editor.home-hero {
+        min-height: 420px;
+    }
+
+    .editor-styles-wrapper .imidjstroy-hero-editor .home-hero__container {
+        padding: 48px 20px;
+    }
+
+    .editor-styles-wrapper .imidjstroy-hero-editor .home-hero__title {
+        font-size: 36px;
+    }
+}
+
+
+/* =========================================================
+   HERO INNER BLOCKS — WYSIWYG + DRAG/DROP
+   ========================================================= */
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero.home-hero {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 480px;
+    align-items: center;
+    overflow: hidden;
+    background: #202326;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__background,
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__background {
+    z-index: 0;
+    background-position: center;
+    background-size: cover;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__overlay {
+    z-index: 1;
+    background: rgb(32 35 38 / 0.70);
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding: 64px 32px;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__content {
+    max-width: 576px;
+    min-height: 80px;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__content > .block-editor-inner-blocks > .block-editor-block-list__layout {
+    min-height: 80px;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__title-first,
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__title-accent {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(36px, 4vw, 48px);
+    font-weight: 700;
+    line-height: 1.18;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__title-accent {
+    margin-top: 8px;
+    color: #22a862;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__text {
+    margin: 16px 0 28px;
+    color: rgb(255 255 255 / 0.82);
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .wp-block-buttons.home-hero__actions,
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__actions > .block-editor-inner-blocks > .block-editor-block-list__layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .wp-block-buttons.home-hero__actions {
+    margin: 0 0 28px;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__actions .wp-block-button { margin: 0; }
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__actions .wp-block-button__link {
+    display: inline-flex;
+    min-width: 148px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 26px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__button--primary .wp-block-button__link {
+    border-color: #22a862;
+    background: #22a862;
+    color: #fff;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__button--outline .wp-block-button__link {
+    border-color: rgb(255 255 255 / 0.55);
+    background: transparent;
+    color: #fff;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .wp-block-group.home-hero__meta,
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__meta > .block-editor-inner-blocks > .block-editor-block-list__layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .wp-block-group.home-hero__meta {
+    margin: 0;
+    color: rgb(255 255 255 / 0.72);
+    font-size: 14px;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__meta-item {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding-left: 22px;
+    color: rgb(255 255 255 / 0.72);
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__meta-item--phone::before {
+    content: '☎';
+    position: absolute;
+    left: 0;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__meta-item--location::before {
+    content: '⌖';
+    position: absolute;
+    left: 0;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__content .wp-block.is-selected,
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__content .wp-block.has-child-selected {
+    outline: 1px dashed rgb(255 255 255 / 0.45);
+    outline-offset: 4px;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__content .block-list-appender__toggle {
+    border: 1px solid rgb(255 255 255 / 0.45) !important;
+    background: rgb(255 255 255 / 0.12) !important;
+    color: #fff !important;
+}
+
+
+/* ================================================
+   Independent button / contact elements
+   ================================================ */
+.editor-styles-wrapper .wp-block-imidjstroy-button,
+.editor-styles-wrapper .wp-block-imidjstroy-contact-item {
+    width: 100%;
+    max-width: 100%;
+}
+
+.editor-styles-wrapper .imidjstroy-inline-button,
+.editor-styles-wrapper .imidjstroy-contact-line {
+    width: 100%;
+}
+
+.editor-styles-wrapper .imidjstroy-inline-button__inner,
+.editor-styles-wrapper .imidjstroy-contact-line__inner {
+    display: flex;
+    width: 100%;
+}
+
+.editor-styles-wrapper .imidjstroy-inline-button.is-align-left .imidjstroy-inline-button__inner,
+.editor-styles-wrapper .imidjstroy-contact-line.is-align-left .imidjstroy-contact-line__inner { justify-content: flex-start; }
+.editor-styles-wrapper .imidjstroy-inline-button.is-align-center .imidjstroy-inline-button__inner,
+.editor-styles-wrapper .imidjstroy-contact-line.is-align-center .imidjstroy-contact-line__inner { justify-content: center; }
+.editor-styles-wrapper .imidjstroy-inline-button.is-align-right .imidjstroy-inline-button__inner,
+.editor-styles-wrapper .imidjstroy-contact-line.is-align-right .imidjstroy-contact-line__inner { justify-content: flex-end; }
+
+.editor-styles-wrapper .imidjstroy-inline-button__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 2rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: text;
+}
+.editor-styles-wrapper .imidjstroy-inline-button.is-style-primary .imidjstroy-inline-button__link {
+    background: #22a862;
+    color: #fff;
+}
+.editor-styles-wrapper .imidjstroy-inline-button.is-style-outline .imidjstroy-inline-button__link {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255,255,255,.45);
+}
+.editor-styles-wrapper .imidjstroy-contact-line__content,
+.editor-styles-wrapper .imidjstroy-contact-line__inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.editor-styles-wrapper .imidjstroy-contact-line__icon {
+    width: 18px;
+    height: 18px;
+    color: rgba(255,255,255,.92);
+    flex: 0 0 auto;
+}
+.editor-styles-wrapper .imidjstroy-contact-line__icon svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+}
+.editor-styles-wrapper .imidjstroy-contact-line__text {
+    color: rgba(255,255,255,.92);
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.editor-styles-wrapper .home-hero.imidjstroy-hero-editor .block-editor-block-list__layout > .wp-block-imidjstroy-button,
+.editor-styles-wrapper .home-hero.imidjstroy-hero-editor .block-editor-block-list__layout > .wp-block-imidjstroy-contact-item {
+    margin-top: 0;
+    margin-bottom: 0.85rem;
+}
+
+
+/* =========================================================
+   ELEMENT ROW — horizontal independent elements
+   ========================================================= */
+.editor-styles-wrapper .wp-block-imidjstroy-row,
+.editor-styles-wrapper .imidjstroy-element-row {
+    width: 100%;
+    max-width: none;
+}
+.editor-styles-wrapper .imidjstroy-element-row__inner,
+.editor-styles-wrapper .imidjstroy-element-row__inner > .block-editor-inner-blocks,
+.editor-styles-wrapper .imidjstroy-element-row__inner > .block-editor-inner-blocks > .block-editor-block-list__layout {
+    display: flex;
+    width: 100%;
+    max-width: none;
+    align-items: center;
+    gap: var(--imidjstroy-row-gap, 12px);
+}
+.editor-styles-wrapper .imidjstroy-element-row.is-wrap .imidjstroy-element-row__inner > .block-editor-inner-blocks > .block-editor-block-list__layout { flex-wrap: wrap; }
+.editor-styles-wrapper .imidjstroy-element-row.is-nowrap .imidjstroy-element-row__inner > .block-editor-inner-blocks > .block-editor-block-list__layout { flex-wrap: nowrap; }
+.editor-styles-wrapper .imidjstroy-element-row.is-justify-left .imidjstroy-element-row__inner > .block-editor-inner-blocks > .block-editor-block-list__layout { justify-content: flex-start; }
+.editor-styles-wrapper .imidjstroy-element-row.is-justify-center .imidjstroy-element-row__inner > .block-editor-inner-blocks > .block-editor-block-list__layout { justify-content: center; }
+.editor-styles-wrapper .imidjstroy-element-row.is-justify-right .imidjstroy-element-row__inner > .block-editor-inner-blocks > .block-editor-block-list__layout { justify-content: flex-end; }
+.editor-styles-wrapper .imidjstroy-element-row .wp-block-imidjstroy-button,
+.editor-styles-wrapper .imidjstroy-element-row .wp-block-imidjstroy-contact-item {
+    width: auto !important;
+    flex: 0 0 auto;
+    margin: 0 !important;
+}
+.editor-styles-wrapper .imidjstroy-element-row .imidjstroy-inline-button,
+.editor-styles-wrapper .imidjstroy-element-row .imidjstroy-contact-line {
+    width: auto;
+}
+.editor-styles-wrapper .imidjstroy-element-row .block-list-appender {
+    flex: 0 0 auto;
+    margin: 0;
+}
+.editor-styles-wrapper .imidjstroy-inline-button__url-editor {
+    width: min(440px, 100%);
+    margin-top: 8px;
+    padding: 10px 12px 2px;
+    border: 1px solid #d9dee5;
+    border-radius: 8px;
+    background: #fff;
+    color: #1e1e1e;
+}
+.editor-styles-wrapper .imidjstroy-element-row .imidjstroy-inline-button__url-editor {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 8px);
+    left: 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,.12);
+}
+.editor-styles-wrapper .imidjstroy-element-row .wp-block-imidjstroy-button.is-selected {
+    position: relative;
+}
+
+
+/* =========================================================
+   HERO EDITOR WIDTH FIX V2
+   Works regardless of Gutenberg root-container nesting.
+   ========================================================= */
+.editor-styles-wrapper [data-type="imidjstroy/hero"],
+.editor-styles-wrapper .wp-block-imidjstroy-hero {
+    position: relative !important;
+    left: 50% !important;
+    width: min(1400px, calc(100vw - 64px)) !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    transform: translateX(-50%) !important;
+    box-sizing: border-box !important;
+}
+
+.editor-styles-wrapper [data-type="imidjstroy/hero"] .home-hero__container,
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__container {
+    width: 100% !important;
+    max-width: 1280px !important;
+    margin-inline: auto !important;
+    box-sizing: border-box !important;
+}
+
+/* Two independent Contact blocks placed directly in Hero should sit on one
+   line with a real layout gap. Leading typed spaces are not relied upon. */
+.editor-styles-wrapper [data-type="imidjstroy/hero"] .home-hero__content > .block-editor-inner-blocks > .block-editor-block-list__layout > [data-type="imidjstroy/contact-item"],
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__content > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block-imidjstroy-contact-item {
+    display: inline-block !important;
+    width: auto !important;
+    max-width: none !important;
+    margin-top: 0.25rem !important;
+    margin-right: 2rem !important;
+    margin-bottom: 0 !important;
+    vertical-align: middle !important;
+}
+
+.editor-styles-wrapper [data-type="imidjstroy/hero"] .home-hero__content > .block-editor-inner-blocks > .block-editor-block-list__layout > [data-type="imidjstroy/contact-item"]:last-of-type,
+.editor-styles-wrapper .wp-block-imidjstroy-hero .home-hero__content > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block-imidjstroy-contact-item:last-of-type {
+    margin-right: 0 !important;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-contact-item .imidjstroy-contact-line,
+.editor-styles-wrapper .wp-block-imidjstroy-contact-item .imidjstroy-contact-line__inner {
+    width: auto !important;
+}
+
+@media (max-width: 960px) {
+    .editor-styles-wrapper [data-type="imidjstroy/hero"],
+    .editor-styles-wrapper .wp-block-imidjstroy-hero {
+        width: calc(100vw - 32px) !important;
+    }
+}
+
+
+/* =========================================================
+   HERO PRIMARY BUTTON RADIUS FIX
+   ========================================================= */
+.editor-styles-wrapper .home-hero .home-hero__button--primary,
+.editor-styles-wrapper .home-hero a.home-hero__button--primary,
+.editor-styles-wrapper .home-hero .home-hero__button--primary .wp-block-button__link,
+.editor-styles-wrapper .home-hero .imidjstroy-inline-button.is-style-primary .imidjstroy-inline-button__link {
+    border-radius: calc(var(--radius, 0.5rem) - 2px) !important;
+}
+
+
+
+/* =========================================================
+   HERO CONTACT SPACING FIX
+   ========================================================= */
+
+.editor-styles-wrapper .home-hero .home-hero__meta,
+.editor-styles-wrapper .home-hero .home-hero__meta > .block-editor-inner-blocks > .block-editor-block-list__layout {
+    column-gap: 1.5rem !important;
+    row-gap: 0.5rem !important;
+}
+
+.editor-styles-wrapper .home-hero .home-hero__meta-item > span,
+.editor-styles-wrapper .home-hero .imidjstroy-contact-line__text,
+.editor-styles-wrapper .home-hero .wp-block-imidjstroy-contact-item .imidjstroy-contact-line__text {
+    white-space: break-spaces !important;
+}
+
+
+
+/* =========================================================
+   HERO CITY ICON FIX
+   ========================================================= */
+.editor-styles-wrapper .home-hero .hero-city-line {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    margin: 0;
+    line-height: 1.4;
+    white-space: break-spaces;
+}
+
+.editor-styles-wrapper .home-hero .hero-city-line::before {
+    content: "";
+    width: 0.95rem;
+    height: 0.95rem;
+    flex: 0 0 0.95rem;
+    display: inline-block;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="black" d="M172.3 501.7C27.5 291 0 269.4 0 192 0 86 86 0 192 0s192 86 192 192c0 77.4-27.5 99-172.3 309.7-9.5 13.8-29.9 13.8-39.4 0zM192 272a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/></svg>") center / contain no-repeat;
+    mask: url("data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="black" d="M172.3 501.7C27.5 291 0 269.4 0 192 0 86 86 0 192 0s192 86 192 192c0 77.4-27.5 99-172.3 309.7-9.5 13.8-29.9 13.8-39.4 0zM192 272a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/></svg>") center / contain no-repeat;
+}
+
+
+
+/* =========================================================
+   HERO CITY ICON FIX V2
+   ========================================================= */
+.editor-styles-wrapper .home-hero .hero-city-line::before {
+    content: "" !important;
+    width: 0.95rem;
+    height: 0.95rem;
+    flex: 0 0 0.95rem;
+    display: inline-block;
+    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20viewBox%3D%220%200%20384%20512%22%3E%3Cpath%20fill%3D%22%2523ffffff%22%20d%3D%22M172.3%20501.7C27.5%20291%200%20269.4%200%20192%200%2086%2086%200%20192%200s192%2086%20192%20192c0%2077.4-27.5%2099-172.3%20309.7-9.5%2013.8-29.9%2013.8-39.4%200zM192%20272a80%2080%200%201%200%200-160%2080%2080%200%201%200%200%20160z%22/%3E%3C/svg%3E") center / contain no-repeat !important;
+    background-color: transparent !important;
+    -webkit-mask: none !important;
+    mask: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.editor-styles-wrapper .home-hero .hero-city-line::before {
+    filter: brightness(0) invert(1);
+}
+
+
+/* =========================================================
+   HERO APPENDER OVERLAP FIX
+   Hide Hero-level inserter while editing a nested block.
+   Nested inserters remain clickable.
+   ========================================================= */
+
+/* Newer Gutenberg DOM: top-level Hero appender is a direct child. */
+.editor-styles-wrapper
+.wp-block-imidjstroy-hero.has-child-selected
+.home-hero__content > .block-list-appender {
+    display: none !important;
+}
+
+/* Older / wrapped Gutenberg DOM. */
+.editor-styles-wrapper
+.wp-block-imidjstroy-hero.has-child-selected
+.home-hero__content > .block-editor-inner-blocks >
+.block-editor-block-list__layout > .block-list-appender {
+    display: none !important;
+}
+
+/* When the Hero itself is selected, keep its own inserter away from
+   nested elements and place it in the lower-right corner. */
+.editor-styles-wrapper .wp-block-imidjstroy-hero {
+    position: relative;
+}
+
+.editor-styles-wrapper
+.wp-block-imidjstroy-hero.is-selected
+.home-hero__content > .block-list-appender {
+    position: absolute !important;
+    right: 18px !important;
+    bottom: 18px !important;
+    z-index: 30 !important;
+    margin: 0 !important;
+}
+
+.editor-styles-wrapper
+.wp-block-imidjstroy-hero.is-selected
+.home-hero__content > .block-editor-inner-blocks >
+.block-editor-block-list__layout > .block-list-appender {
+    position: absolute !important;
+    right: 18px !important;
+    bottom: 18px !important;
+    z-index: 30 !important;
+    margin: 0 !important;
+}
+
+/* Keep inserters inside nested rows above normal block outlines. */
+.editor-styles-wrapper
+.wp-block-imidjstroy-hero
+.imidjstroy-element-row .block-list-appender {
+    position: relative !important;
+    z-index: 40 !important;
+}
+
+
+
+/* =========================================================
+   HERO HIDE MAIN APPENDER
+   Gutenberg already shows contextual inserters between blocks,
+   so the persistent Hero-level + button is unnecessary.
+   ========================================================= */
+
+/* Direct Hero appender */
+.editor-styles-wrapper
+.wp-block-imidjstroy-hero
+.home-hero__content > .block-list-appender {
+    display: none !important;
+}
+
+/* Gutenberg wrapped DOM */
+.editor-styles-wrapper
+.wp-block-imidjstroy-hero
+.home-hero__content > .block-editor-inner-blocks >
+.block-editor-block-list__layout > .block-list-appender {
+    display: none !important;
+}
+
+/* Cover newer Gutenberg appender markup without hiding
+   contextual inserters that appear between existing blocks. */
+.editor-styles-wrapper
+.wp-block-imidjstroy-hero
+.home-hero__content > .block-editor-inner-blocks >
+.block-editor-block-list__layout >
+.block-editor-default-block-appender {
+    display: none !important;
+}
+

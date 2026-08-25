@@ -7246,3 +7246,417 @@ input[type="password"]::-ms-clear {
     object-position: center;
     border-radius: inherit;
 }
+
+
+/* =========================================================
+   MODULAR HOME: NEWS / GALLERY / CTA / TEXT
+   ========================================================= */
+.home-news{padding:3.5rem 0;background:hsl(var(--background));}
+.home-news__heading,.home-gallery__heading{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;}
+.home-news__heading h2,.home-gallery__heading h2{margin:0;font-size:clamp(1.5rem,2.8vw,2rem);}
+.home-news__heading a{display:inline-flex;align-items:center;gap:.35rem;color:hsl(var(--primary));font-size:.86rem;font-weight:600;}
+.home-news__heading a svg{width:1rem;height:1rem;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.home-gallery{padding:3.5rem 0;background:hsl(var(--background));}
+.home-gallery__grid{display:grid;grid-template-columns:repeat(var(--gallery-columns,4),minmax(0,1fr));gap:1rem;}
+.home-gallery__item{overflow:hidden;aspect-ratio:4/3;margin:0;border-radius:.9rem;background:hsl(var(--muted));box-shadow:0 5px 14px rgb(0 0 0/.05);}
+.home-gallery__item img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease;}
+.home-gallery__item:hover img{transform:scale(1.035);}
+.home-cta{padding:3.5rem 0;background:hsl(var(--accent));}
+.home-cta__box{display:flex;align-items:center;justify-content:space-between;gap:2rem;padding:2rem 2.25rem;border:1px solid hsl(var(--primary)/.15);border-radius:1rem;background:hsl(var(--card));box-shadow:0 10px 25px rgb(0 0 0/.04);}
+.home-cta__box h2{margin:0;font-size:1.55rem}.home-cta__box p{margin:.45rem 0 0;color:hsl(var(--muted-foreground));}
+.home-cta__button{display:inline-flex;min-height:2.8rem;align-items:center;justify-content:center;padding:.7rem 1.1rem;border-radius:.55rem;background:hsl(var(--primary));color:hsl(var(--primary-foreground));font-weight:600;white-space:nowrap;}
+.home-text-block{padding:3.5rem 0;background:hsl(var(--background));}.home-text-block__inner{max-width:900px}.home-text-block__eyebrow{display:block;margin-bottom:.45rem;color:hsl(var(--primary));font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}.home-text-block h2{margin:0 0 .8rem;font-size:clamp(1.5rem,2.8vw,2rem)}.home-text-block__content{color:hsl(var(--muted-foreground));line-height:1.7}.home-text-block__content p:last-child{margin-bottom:0}
+@media(max-width:900px){.home-gallery__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-cta__box{align-items:flex-start;flex-direction:column}.home-news .blog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.home-news,.home-gallery,.home-cta,.home-text-block{padding:2.75rem 0}.home-news__heading,.home-gallery__heading{align-items:flex-start}.home-news .blog-grid,.home-gallery__grid{grid-template-columns:1fr}.home-cta__box{padding:1.4rem}.home-cta__button{width:100%}}
+
+/* =========================================================
+   HERO — EDITABLE GUTENBERG INNER BLOCKS
+   ========================================================= */
+
+.home-hero--blocks .home-hero__content > *:first-child { margin-top: 0; }
+.home-hero--blocks .home-hero__content > *:last-child { margin-bottom: 0; }
+
+.home-hero--blocks .home-hero__title-first,
+.home-hero--blocks .home-hero__title-accent {
+    max-width: 36rem;
+    margin: 0;
+    color: hsl(var(--secondary-foreground));
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.home-hero--blocks .home-hero__title-first { font-size: 2.25rem; }
+
+.home-hero--blocks .home-hero__title-accent {
+    margin-top: 0.35rem;
+    color: hsl(var(--primary));
+    font-size: 2.25rem;
+}
+
+.home-hero--blocks .home-hero__text {
+    max-width: 36rem;
+    margin: 1rem 0 2rem;
+    color: hsl(var(--secondary-foreground) / 0.80);
+    font-size: 1.125rem;
+    line-height: 1.625;
+}
+
+.home-hero--blocks .wp-block-buttons.home-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0 0 2rem;
+}
+
+.home-hero--blocks .home-hero__actions .wp-block-button { margin: 0; }
+
+.home-hero--blocks .home-hero__actions .wp-block-button__link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    border: 1px solid transparent;
+    border-radius: calc(var(--radius) - 2px);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    box-shadow: none;
+}
+
+.home-hero--blocks .home-hero__button--primary .wp-block-button__link {
+    border-color: hsl(var(--primary));
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+
+.home-hero--blocks .home-hero__button--primary .wp-block-button__link:hover {
+    background: hsl(var(--primary) / 0.90);
+}
+
+.home-hero--blocks .home-hero__button--outline .wp-block-button__link {
+    border-color: hsl(var(--primary-foreground) / 0.50);
+    background: transparent;
+    color: hsl(var(--primary-foreground));
+}
+
+.home-hero--blocks .home-hero__button--outline .wp-block-button__link:hover {
+    background: hsl(var(--primary-foreground) / 0.10);
+    color: hsl(var(--primary-foreground));
+}
+
+.home-hero--blocks .wp-block-group.home-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+    color: hsl(var(--secondary-foreground) / 0.70);
+    font-size: 0.875rem;
+}
+
+.home-hero--blocks .home-hero__meta-item {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding-left: 1.35rem;
+}
+
+.home-hero--blocks .home-hero__meta-item::before {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 1rem;
+    height: 1rem;
+    transform: translateY(-50%);
+    background-color: currentColor;
+    content: '';
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+}
+
+.home-hero--blocks .home-hero__meta-item--phone::before {
+    content: '☎';
+    width: auto;
+    height: auto;
+    background: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+
+.home-hero--blocks .home-hero__meta-item--location::before {
+    content: '⌖';
+    width: auto;
+    height: auto;
+    background: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+
+@media (min-width: 768px) {
+    .home-hero--blocks .home-hero__title-first,
+    .home-hero--blocks .home-hero__title-accent {
+        font-size: 3rem;
+    }
+}
+
+
+/* =========================================================
+   HERO LAYOUT CONTROLS — FRONT END
+   ========================================================= */
+
+.home-hero--blocks .home-hero__content {
+    width: 100%;
+    max-width: none;
+}
+
+.home-hero--blocks .wp-block-buttons.home-hero__actions {
+    width: 100%;
+    max-width: none;
+}
+
+.home-hero--blocks .home-hero__actions.is-content-justification-left {
+    justify-content: flex-start;
+}
+
+.home-hero--blocks .home-hero__actions.is-content-justification-center {
+    justify-content: center;
+}
+
+.home-hero--blocks .home-hero__actions.is-content-justification-right {
+    justify-content: flex-end;
+}
+
+.home-hero--blocks .home-hero__actions .wp-block-button__link {
+    border-radius: 8px !important;
+}
+
+.home-hero--blocks .wp-block-group.home-hero__meta {
+    width: 100%;
+    max-width: none;
+}
+
+
+/* =========================================================
+   HERO — independent button and contact elements
+   ========================================================= */
+.home-hero--blocks .wp-block-imidjstroy-button,
+.home-hero--blocks .wp-block-imidjstroy-contact-item {
+    width: 100%;
+    margin: 0 0 0.85rem;
+}
+.home-hero--blocks .wp-block-imidjstroy-contact-item:last-child {
+    margin-bottom: 0;
+}
+.home-hero--blocks .imidjstroy-inline-button,
+.home-hero--blocks .imidjstroy-contact-line {
+    width: 100%;
+}
+.home-hero--blocks .imidjstroy-inline-button__inner,
+.home-hero--blocks .imidjstroy-contact-line__inner {
+    display: flex;
+    width: 100%;
+}
+.home-hero--blocks .imidjstroy-inline-button.is-align-left .imidjstroy-inline-button__inner,
+.home-hero--blocks .imidjstroy-contact-line.is-align-left .imidjstroy-contact-line__inner { justify-content: flex-start; }
+.home-hero--blocks .imidjstroy-inline-button.is-align-center .imidjstroy-inline-button__inner,
+.home-hero--blocks .imidjstroy-contact-line.is-align-center .imidjstroy-contact-line__inner { justify-content: center; }
+.home-hero--blocks .imidjstroy-inline-button.is-align-right .imidjstroy-inline-button__inner,
+.home-hero--blocks .imidjstroy-contact-line.is-align-right .imidjstroy-contact-line__inner { justify-content: flex-end; }
+.home-hero--blocks .imidjstroy-inline-button__link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 2rem;
+    border: 1px solid transparent;
+    border-radius: calc(var(--radius) - 2px);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.home-hero--blocks .imidjstroy-inline-button.is-style-primary .imidjstroy-inline-button__link {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+.home-hero--blocks .imidjstroy-inline-button.is-style-primary .imidjstroy-inline-button__link:hover {
+    background: hsl(var(--primary) / 0.90);
+}
+.home-hero--blocks .imidjstroy-inline-button.is-style-outline .imidjstroy-inline-button__link {
+    border-color: hsl(var(--primary-foreground) / 0.50);
+    background: transparent;
+    color: hsl(var(--primary-foreground));
+}
+.home-hero--blocks .imidjstroy-inline-button.is-style-outline .imidjstroy-inline-button__link:hover {
+    background: hsl(var(--primary-foreground) / 0.10);
+    color: hsl(var(--primary-foreground));
+}
+.home-hero--blocks .imidjstroy-contact-line__inner {
+    display: inline-flex;
+    width: auto;
+    align-items: center;
+    gap: 0.6rem;
+    color: hsl(var(--secondary-foreground));
+}
+.home-hero--blocks .imidjstroy-contact-line__icon {
+    width: 1rem;
+    height: 1rem;
+    color: hsl(var(--primary-foreground) / 0.92);
+    flex: 0 0 auto;
+}
+.home-hero--blocks .imidjstroy-contact-line__icon svg {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+}
+.home-hero--blocks .imidjstroy-contact-line__text,
+.home-hero--blocks .imidjstroy-contact-line__text:visited {
+    color: hsl(var(--secondary-foreground));
+    font-size: 0.95rem;
+    line-height: 1.4;
+    text-decoration: none;
+}
+.home-hero--blocks .imidjstroy-contact-line__text:hover {
+    color: hsl(var(--primary-foreground));
+}
+
+
+/* =========================================================
+   ELEMENT ROW — FRONT END
+   ========================================================= */
+.imidjstroy-element-row,
+.imidjstroy-element-row__inner {
+    width: 100%;
+}
+.imidjstroy-element-row__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--imidjstroy-row-gap, 12px);
+}
+.imidjstroy-element-row.is-wrap .imidjstroy-element-row__inner { flex-wrap: wrap; }
+.imidjstroy-element-row.is-nowrap .imidjstroy-element-row__inner { flex-wrap: nowrap; }
+.imidjstroy-element-row.is-justify-left .imidjstroy-element-row__inner { justify-content: flex-start; }
+.imidjstroy-element-row.is-justify-center .imidjstroy-element-row__inner { justify-content: center; }
+.imidjstroy-element-row.is-justify-right .imidjstroy-element-row__inner { justify-content: flex-end; }
+.imidjstroy-element-row .wp-block-imidjstroy-button,
+.imidjstroy-element-row .wp-block-imidjstroy-contact-item {
+    width: auto;
+    flex: 0 0 auto;
+    margin: 0;
+}
+.imidjstroy-element-row .imidjstroy-inline-button,
+.imidjstroy-element-row .imidjstroy-contact-line {
+    width: auto;
+}
+
+
+/* =========================================================
+   HERO DIRECT CONTACT GAP V2
+   ========================================================= */
+.home-hero--blocks .home-hero__content > .wp-block-imidjstroy-contact-item {
+    display: inline-block;
+    width: auto;
+    max-width: none;
+    margin: 0.25rem 2rem 0 0;
+    vertical-align: middle;
+}
+
+.home-hero--blocks .home-hero__content > .wp-block-imidjstroy-contact-item:last-of-type {
+    margin-right: 0;
+}
+
+.home-hero--blocks .home-hero__content > .wp-block-imidjstroy-contact-item .imidjstroy-contact-line,
+.home-hero--blocks .home-hero__content > .wp-block-imidjstroy-contact-item .imidjstroy-contact-line__inner {
+    width: auto;
+}
+
+
+/* =========================================================
+   HERO PRIMARY BUTTON RADIUS FIX
+   Uses the theme radius variable so it can be centralized later.
+   ========================================================= */
+.home-hero .home-hero__button--primary,
+.home-hero a.home-hero__button--primary,
+.home-hero .home-hero__button--primary .wp-block-button__link,
+.home-hero .imidjstroy-inline-button.is-style-primary .imidjstroy-inline-button__link {
+    border-radius: calc(var(--radius, 0.5rem) - 2px) !important;
+}
+
+
+
+/* =========================================================
+   HERO CONTACT SPACING FIX
+   - real gap between separate contact items
+   - preserve manually entered spaces inside contact text
+   ========================================================= */
+
+.home-hero .home-hero__meta {
+    column-gap: 1.5rem !important;
+    row-gap: 0.5rem !important;
+}
+
+.home-hero .home-hero__meta-item > span,
+.home-hero .imidjstroy-contact-line__text,
+.home-hero .wp-block-imidjstroy-contact-item .imidjstroy-contact-line__text {
+    white-space: break-spaces !important;
+}
+
+
+
+/* =========================================================
+   HERO CITY ICON FIX
+   Add class hero-city-line to the paragraph with city text in Hero.
+   ========================================================= */
+.home-hero .hero-city-line {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    margin: 0;
+    line-height: 1.4;
+    white-space: break-spaces;
+}
+
+.home-hero .hero-city-line::before {
+    content: "";
+    width: 0.95rem;
+    height: 0.95rem;
+    flex: 0 0 0.95rem;
+    display: inline-block;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="black" d="M172.3 501.7C27.5 291 0 269.4 0 192 0 86 86 0 192 0s192 86 192 192c0 77.4-27.5 99-172.3 309.7-9.5 13.8-29.9 13.8-39.4 0zM192 272a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/></svg>") center / contain no-repeat;
+    mask: url("data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="black" d="M172.3 501.7C27.5 291 0 269.4 0 192 0 86 86 0 192 0s192 86 192 192c0 77.4-27.5 99-172.3 309.7-9.5 13.8-29.9 13.8-39.4 0zM192 272a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/></svg>") center / contain no-repeat;
+}
+
+
+
+/* =========================================================
+   HERO CITY ICON FIX V2
+   Replaces mask-based icon with inline SVG background.
+   ========================================================= */
+.home-hero .hero-city-line::before {
+    content: "" !important;
+    width: 0.95rem;
+    height: 0.95rem;
+    flex: 0 0 0.95rem;
+    display: inline-block;
+    background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20viewBox%3D%220%200%20384%20512%22%3E%3Cpath%20fill%3D%22%2523ffffff%22%20d%3D%22M172.3%20501.7C27.5%20291%200%20269.4%200%20192%200%2086%2086%200%20192%200s192%2086%20192%20192c0%2077.4-27.5%2099-172.3%20309.7-9.5%2013.8-29.9%2013.8-39.4%200zM192%20272a80%2080%200%201%200%200-160%2080%2080%200%201%200%200%20160z%22/%3E%3C/svg%3E") center / contain no-repeat !important;
+    background-color: transparent !important;
+    -webkit-mask: none !important;
+    mask: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.home-hero .hero-city-line::before {
+    filter: brightness(0) invert(1);
+}

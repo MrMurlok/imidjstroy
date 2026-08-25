@@ -4,6 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+$args = wp_parse_args( isset( $args ) && is_array( $args ) ? $args : [], [
+    'title'     => 'Категории',
+    'link_text' => 'Смотреть все',
+] );
+
 if ( ! function_exists( 'imidjstroy_product_count_text' ) ) {
     function imidjstroy_product_count_text( $count ) {
         $count = absint( $count );
@@ -45,13 +50,13 @@ $categories = array_filter( $categories, function ( $category ) {
     <div class="container">
 
         <div class="home-categories__heading">
-            <h2 class="home-categories__title">Категории</h2>
+            <h2 class="home-categories__title"><?php echo esc_html( $args['title'] ); ?></h2>
 
             <a
                 href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"
                 class="home-categories__all"
             >
-                Смотреть все
+                <?php echo esc_html( $args['link_text'] ); ?>
 
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M5 12h14"></path>

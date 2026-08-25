@@ -1,0 +1,907 @@
+(function (wp) {
+    'use strict';
+
+    var el = wp.element.createElement;
+    var Fragment = wp.element.Fragment;
+    var register = wp.blocks.registerBlockType;
+    var Inspector = wp.blockEditor.InspectorControls;
+    var useBlockProps = wp.blockEditor.useBlockProps;
+    var useInnerBlocksProps = wp.blockEditor.useInnerBlocksProps;
+    var InnerBlocks = wp.blockEditor.InnerBlocks;
+    var RichText = wp.blockEditor.RichText;
+    var BlockControls = wp.blockEditor.BlockControls;
+    var AlignmentToolbar = wp.blockEditor.AlignmentToolbar;
+    var InspectorControls = wp.blockEditor.InspectorControls;
+    var useBlockPropsSave = wp.blockEditor.useBlockProps;
+    var ToggleControl = wp.components.ToggleControl;
+    var MediaUpload = wp.blockEditor.MediaUpload;
+    var MediaUploadCheck = wp.blockEditor.MediaUploadCheck;
+    var Panel = wp.components.PanelBody;
+    var Text = wp.components.TextControl;
+    var Range = wp.components.RangeControl;
+    var Select = wp.components.SelectControl;
+    var Button = wp.components.Button;
+    var Textarea = wp.components.TextareaControl;
+
+    function shell(title, description, children) {
+        return el(
+            'div',
+            { className: 'imidjstroy-editor-block' },
+            el('div', { className: 'imidjstroy-editor-block__badge' }, 'Имидж Строй'),
+            el('h3', null, title),
+            description ? el('p', null, description) : null,
+            children || null
+        );
+    }
+
+    function reg(name, title, icon, attributes, edit) {
+        register(name, {
+            apiVersion: 2,
+            title: title,
+            icon: icon,
+            category: 'imidjstroy',
+            attributes: attributes,
+            supports: { html: false },
+            edit: function (props) {
+                var blockProps = useBlockProps({
+                    className: 'imidjstroy-editor-block-wrap'
+                });
+
+                return el(
+                    'div',
+                    blockProps,
+                    edit(props)
+                );
+            },
+            save: function () { return null; }
+        });
+    }
+
+
+    function iconNode(kind) {
+        if (kind === 'location') {
+            return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+                el('path', { d: 'M12 21s-6-4.35-6-10a6 6 0 1 1 12 0c0 5.65-6 10-6 10Z', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }),
+                el('circle', { cx: '12', cy: '11', r: '2.5', fill: 'none', stroke: 'currentColor', 'stroke-width': '2' })
+            );
+        }
+        if (kind === 'email') {
+            return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+                el('rect', { x: '3', y: '5', width: '18', height: '14', rx: '2', fill: 'none', stroke: 'currentColor', 'stroke-width': '2' }),
+                el('path', { d: 'M4 7l8 6 8-6', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })
+            );
+        }
+        return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+            el('path', { d: 'M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.09 5.18 2 2 0 0 1 5.08 3h3a2 2 0 0 1 2 1.72l.35 2.46a2 2 0 0 1-.57 1.71L8.09 10.7a16 16 0 0 0 5.21 5.21l1.81-1.77a2 2 0 0 1 1.71-.57l2.46.35A2 2 0 0 1 22 16.92z', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })
+        );
+    }
+
+    function justifyClass(value) {
+        return value ? 'is-align-' + value : 'is-align-left';
+    }
+
+    register('imidjstroy/button', {
+        apiVersion: 2,
+        title: 'Кнопка',
+        icon: 'button',
+        category: 'imidjstroy',
+        parent: ['imidjstroy/hero', 'imidjstroy/section', 'imidjstroy/row'],
+        attributes: {
+            text: { type: 'string', default: 'Кнопка' },
+            url: { type: 'string', default: '' },
+            styleType: { type: 'string', default: 'primary' },
+            align: { type: 'string', default: 'left' }
+        },
+        supports: { html: false, reusable: false },
+        edit: function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+            var blockProps = useBlockProps({ className: 'imidjstroy-inline-button ' + justifyClass(a.align) + ' is-style-' + a.styleType });
+            return el(
+                Fragment,
+                null,
+                el(BlockControls, null, el(AlignmentToolbar, { value: a.align, onChange: function(v){ s({ align: v || 'left' }); } })),
+                el(Inspector,
+                    null,
+                    el(Panel, { title: 'Настройки кнопки', initialOpen: true },
+                        el(Text, { label: 'Ссылка', value: a.url, onChange: function(v){ s({ url: v }); } }),
+                        el(Select, { label: 'Стиль', value: a.styleType, options: [
+                            { label: 'Основная', value: 'primary' },
+                            { label: 'Контурная', value: 'outline' }
+                        ], onChange: function(v){ s({ styleType: v }); } })
+                    )
+                ),
+                el('div', blockProps,
+                    el('div', { className: 'imidjstroy-inline-button__inner' },
+                        el(RichText, {
+                            tagName: 'span',
+                            className: 'imidjstroy-inline-button__link',
+                            value: a.text,
+                            allowedFormats: [],
+                            placeholder: 'Текст кнопки',
+                            onChange: function(v){ s({ text: v }); }
+                        })
+                    ),
+                    props.isSelected ? el(
+                        'div',
+                        { className: 'imidjstroy-inline-button__url-editor' },
+                        el(Text, {
+                            label: 'Ссылка кнопки',
+                            value: a.url,
+                            placeholder: '/catalog/ или https://…',
+                            onChange: function(v){ s({ url: v }); },
+                            help: 'Можно указать внутренний путь, например /contacts/, или полный URL.'
+                        })
+                    ) : null
+                )
+            );
+        },
+        save: function (props) {
+            var a = props.attributes;
+            var wrapper = useBlockPropsSave({ className: 'imidjstroy-inline-button ' + justifyClass(a.align) + ' is-style-' + a.styleType });
+            return el('div', wrapper,
+                el('div', { className: 'imidjstroy-inline-button__inner' },
+                    el('a', { href: a.url || '#', className: 'imidjstroy-inline-button__link' }, a.text || 'Кнопка')
+                )
+            );
+        }
+    });
+
+    register('imidjstroy/contact-item', {
+        apiVersion: 2,
+        title: 'Контакт',
+        icon: 'location',
+        category: 'imidjstroy',
+        parent: ['imidjstroy/hero', 'imidjstroy/section', 'imidjstroy/row'],
+        attributes: {
+            text: { type: 'string', default: '+7 (964) 449-22-29' },
+            url: { type: 'string', default: '' },
+            kind: { type: 'string', default: 'phone' },
+            align: { type: 'string', default: 'left' }
+        },
+        supports: { html: false, reusable: false },
+        edit: function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+            var blockProps = useBlockProps({ className: 'imidjstroy-contact-line ' + justifyClass(a.align) + ' is-kind-' + a.kind });
+            return el(
+                Fragment,
+                null,
+                el(BlockControls, null, el(AlignmentToolbar, { value: a.align, onChange: function(v){ s({ align: v || 'left' }); } })),
+                el(Inspector,
+                    null,
+                    el(Panel, { title: 'Настройки контакта', initialOpen: true },
+                        el(Select, { label: 'Тип', value: a.kind, options: [
+                            { label: 'Телефон', value: 'phone' },
+                            { label: 'Адрес', value: 'location' },
+                            { label: 'Email', value: 'email' }
+                        ], onChange: function(v){ s({ kind: v }); } }),
+                        el(Text, { label: 'Ссылка', value: a.url, onChange: function(v){ s({ url: v }); }, help: 'Например: tel:+79644492229, mailto:test@mail.ru или ссылка на карту.' })
+                    )
+                ),
+                el('div', blockProps,
+                    el('div', { className: 'imidjstroy-contact-line__inner' },
+                        el('span', { className: 'imidjstroy-contact-line__icon' }, iconNode(a.kind)),
+                        el(RichText, {
+                            tagName: 'span',
+                            className: 'imidjstroy-contact-line__text',
+                            value: a.text,
+                            allowedFormats: [],
+                            placeholder: a.kind === 'location' ? 'Адрес' : 'Контакт',
+                            onChange: function(v){ s({ text: v }); }
+                        })
+                    )
+                )
+            );
+        },
+        save: function (props) {
+            var a = props.attributes;
+            var wrapper = useBlockPropsSave({ className: 'imidjstroy-contact-line ' + justifyClass(a.align) + ' is-kind-' + a.kind });
+            var textNode = a.url ? el('a', { href: a.url, className: 'imidjstroy-contact-line__text' }, a.text || '') : el('span', { className: 'imidjstroy-contact-line__text' }, a.text || '');
+            return el('div', wrapper,
+                el('div', { className: 'imidjstroy-contact-line__inner' },
+                    el('span', { className: 'imidjstroy-contact-line__icon' }, iconNode(a.kind)),
+                    textNode
+                )
+            );
+        }
+    });
+
+
+    register('imidjstroy/row', {
+        apiVersion: 2,
+        title: 'Строка элементов',
+        description: 'Располагает самостоятельные кнопки, контакты, текст и изображения рядом.',
+        icon: 'editor-table',
+        category: 'imidjstroy',
+        parent: ['imidjstroy/hero', 'imidjstroy/section'],
+        attributes: {
+            alignItems: { type: 'string', default: 'left' },
+            gap: { type: 'number', default: 12 },
+            wrap: { type: 'boolean', default: true }
+        },
+        supports: { html: false, reusable: false },
+        edit: function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+            var allowed = [
+                'imidjstroy/button', 'imidjstroy/contact-item',
+                'core/paragraph', 'core/heading', 'core/image'
+            ];
+            var blockProps = useBlockProps({
+                className: 'imidjstroy-element-row is-justify-' + a.alignItems + (a.wrap ? ' is-wrap' : ' is-nowrap'),
+                style: { '--imidjstroy-row-gap': String(a.gap || 0) + 'px' }
+            });
+            var inner = useInnerBlocksProps(
+                { className: 'imidjstroy-element-row__inner' },
+                {
+                    allowedBlocks: allowed,
+                    templateLock: false,
+                    orientation: 'horizontal',
+                    renderAppender: function () { return el(InnerBlocks.ButtonBlockAppender); }
+                }
+            );
+            return el(
+                Fragment,
+                null,
+                el(BlockControls, null,
+                    el(AlignmentToolbar, {
+                        value: a.alignItems,
+                        onChange: function(v){ s({ alignItems: v || 'left' }); }
+                    })
+                ),
+                el(Inspector, null,
+                    el(Panel, { title: 'Строка элементов', initialOpen: true },
+                        el(Range, { label: 'Расстояние между элементами', value: a.gap, min: 0, max: 48, onChange: function(v){ s({ gap: v }); } }),
+                        el(ToggleControl, { label: 'Переносить на новую строку при нехватке места', checked: a.wrap, onChange: function(v){ s({ wrap: v }); } })
+                    )
+                ),
+                el('div', blockProps, el('div', inner))
+            );
+        },
+        save: function (props) {
+            var a = props.attributes;
+            var wrapper = useBlockPropsSave({
+                className: 'imidjstroy-element-row is-justify-' + a.alignItems + (a.wrap ? ' is-wrap' : ' is-nowrap'),
+                style: { '--imidjstroy-row-gap': String(a.gap || 0) + 'px' }
+            });
+            var inner = useInnerBlocksProps.save({ className: 'imidjstroy-element-row__inner' });
+            return el('div', wrapper, el('div', inner));
+        }
+    });
+
+    register('imidjstroy/hero', {
+        apiVersion: 2,
+        title: 'Hero',
+        icon: 'cover-image',
+        category: 'imidjstroy',
+        attributes: {
+            titleFirst: { type: 'string', default: 'Строительные материалы' },
+            titleAccent: { type: 'string', default: 'оптом и в розницу' },
+            text: { type: 'string', default: 'Качественные стройматериалы по лучшим ценам во Владивостоке. Доставка и самовывоз.' },
+            primaryText: { type: 'string', default: 'Смотреть каталог' },
+            primaryUrl: { type: 'string', default: '/shop/' },
+            secondaryText: { type: 'string', default: 'Связаться с нами' },
+            secondaryUrl: { type: 'string', default: '/contacts/' },
+            backgroundUrl: { type: 'string', default: '' }
+        },
+        supports: {
+            html: false,
+            anchor: true
+        },
+        edit: function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+            var editorData = window.imidjstroyHomeEditor || {};
+            var heroBackground = a.backgroundUrl || editorData.heroBackground || '';
+            var phone = editorData.phone || '+7 (964) 449-22-29';
+            var city = editorData.city || 'Владивосток';
+
+            var allowed = [
+                'core/heading', 'core/paragraph',
+                'imidjstroy/button', 'imidjstroy/contact-item', 'imidjstroy/row',
+                'core/group', 'core/columns', 'core/column', 'core/image',
+                'core/list', 'core/list-item', 'core/spacer', 'core/separator'
+            ];
+
+            var template = [
+                [ 'core/heading', {
+                    level: 1,
+                    content: a.titleFirst,
+                    className: 'home-hero__title-first'
+                } ],
+                [ 'core/heading', {
+                    level: 2,
+                    content: a.titleAccent,
+                    className: 'home-hero__title-accent'
+                } ],
+                [ 'core/paragraph', {
+                    content: a.text,
+                    className: 'home-hero__text'
+                } ],
+                [ 'imidjstroy/button', {
+                    text: a.primaryText,
+                    url: a.primaryUrl,
+                    styleType: 'primary',
+                    align: 'left'
+                } ],
+                [ 'imidjstroy/button', {
+                    text: a.secondaryText,
+                    url: a.secondaryUrl,
+                    styleType: 'outline',
+                    align: 'left'
+                } ],
+                [ 'imidjstroy/contact-item', {
+                    text: phone,
+                    url: 'tel:' + String(phone).replace(/[^\d+]/g, ''),
+                    kind: 'phone',
+                    align: 'left'
+                } ],
+                [ 'imidjstroy/contact-item', {
+                    text: city,
+                    url: '',
+                    kind: 'location',
+                    align: 'left'
+                } ]
+            ];
+
+            var blockProps = useBlockProps({
+                className: 'home-hero imidjstroy-hero-editor'
+            });
+
+            var innerBlocksProps = useInnerBlocksProps(
+                { className: 'home-hero__content' },
+                {
+                    allowedBlocks: allowed,
+                    template: template,
+                    templateLock: false,
+                    renderAppender: function () {
+                        return el(InnerBlocks.ButtonBlockAppender);
+                    }
+                }
+            );
+
+            var inspector = el(
+                Inspector,
+                null,
+                el(
+                    Panel,
+                    { title: 'Фон Hero', initialOpen: true },
+                    el(
+                        MediaUploadCheck,
+                        null,
+                        el(MediaUpload, {
+                            allowedTypes: ['image'],
+                            onSelect: function (media) {
+                                s({ backgroundUrl: media && media.url ? media.url : '' });
+                            },
+                            render: function (obj) {
+                                return el(
+                                    Fragment,
+                                    null,
+                                    el(
+                                        Button,
+                                        { variant: 'secondary', onClick: obj.open },
+                                        a.backgroundUrl ? 'Изменить фон' : 'Выбрать свой фон'
+                                    ),
+                                    a.backgroundUrl
+                                        ? el(
+                                            Button,
+                                            {
+                                                variant: 'tertiary',
+                                                isDestructive: true,
+                                                onClick: function () { s({ backgroundUrl: '' }); }
+                                            },
+                                            'Вернуть фон темы'
+                                        )
+                                        : null
+                                );
+                            }
+                        })
+                    ),
+                    el(
+                        'p',
+                        { className: 'components-base-control__help' },
+                        'Тексты, кнопки и контакты теперь можно добавлять как отдельные элементы. Через «+» вставляй новые кнопки и контакты независимо друг от друга.'
+                    )
+                )
+            );
+
+            return el(
+                Fragment,
+                null,
+                inspector,
+                el(
+                    'section',
+                    blockProps,
+                    el(
+                        'div',
+                        {
+                            className: 'home-hero__background',
+                            style: heroBackground ? { backgroundImage: 'url("' + heroBackground.replace(/"/g, '%22') + '")' } : {}
+                        }
+                    ),
+                    el('div', { className: 'home-hero__overlay' }),
+                    el(
+                        'div',
+                        { className: 'home-hero__container' },
+                        el('div', innerBlocksProps)
+                    )
+                )
+            );
+        },
+        save: function () {
+            return el(InnerBlocks.Content);
+        }
+    });
+
+    reg(
+        'imidjstroy/features',
+        'Преимущества',
+        'awards',
+        {
+            items: {
+                type: 'array',
+                default: [
+                    { title: 'Быстрая доставка', description: 'Доставка по Владивостоку и области' },
+                    { title: 'Гарантия качества', description: 'Только сертифицированные товары' },
+                    { title: 'Удобное время', description: 'Пн–Пт: 9:00–18:00' },
+                    { title: 'Поддержка', description: 'Консультации по выбору материалов' }
+                ]
+            }
+        },
+        function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+
+            function updateItem(index, key, value) {
+                var items = a.items.map(function (item) { return Object.assign({}, item); });
+                items[index][key] = value;
+                s({ items: items });
+            }
+
+            return shell(
+                'Преимущества',
+                'Четыре фирменные карточки.',
+                el(
+                    'div',
+                    { className: 'imidjstroy-editor-features' },
+                    a.items.map(function (item, index) {
+                        return el(
+                            'div',
+                            { className: 'imidjstroy-editor-mini', key: index },
+                            el(Text, { label: 'Заголовок ' + (index + 1), value: item.title, onChange: function (v) { updateItem(index, 'title', v); } }),
+                            el(Text, { label: 'Описание', value: item.description, onChange: function (v) { updateItem(index, 'description', v); } })
+                        );
+                    })
+                )
+            );
+        }
+    );
+
+    reg(
+        'imidjstroy/categories',
+        'Категории',
+        'category',
+        {
+            title: { type: 'string', default: 'Категории' },
+            link_text: { type: 'string', default: 'Смотреть все' }
+        },
+        function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+            return shell(
+                'Категории',
+                'Карточки автоматически берутся из WooCommerce.',
+                el(
+                    'div',
+                    { className: 'imidjstroy-editor-fields' },
+                    el(Text, { label: 'Заголовок', value: a.title, onChange: function (v) { s({ title: v }); } }),
+                    el(Text, { label: 'Текст ссылки', value: a.link_text, onChange: function (v) { s({ link_text: v }); } })
+                )
+            );
+        }
+    );
+
+    reg(
+        'imidjstroy/product-section',
+        'Товарная секция',
+        'products',
+        {
+            sectionType: { type: 'string', default: 'popular' },
+            title: { type: 'string', default: 'Популярные товары' },
+            eyebrow: { type: 'string', default: '' },
+            link_text: { type: 'string', default: 'Смотреть все' },
+            count: { type: 'number', default: 8 }
+        },
+        function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+
+            var inspector = el(
+                Inspector,
+                null,
+                el(
+                    Panel,
+                    { title: 'Настройки секции', initialOpen: true },
+                    el(Select, {
+                        label: 'Источник товаров',
+                        value: a.sectionType,
+                        options: [
+                            { label: 'Стройматериалы', value: 'building' },
+                            { label: 'Рекламные материалы', value: 'ad' },
+                            { label: 'Популярные / последние', value: 'popular' }
+                        ],
+                        onChange: function (v) {
+                            var title = v === 'building' ? 'Стройматериалы' : (v === 'ad' ? 'Рекламные материалы' : 'Популярные товары');
+                            s({ sectionType: v, title: title });
+                        }
+                    }),
+                    el(Range, { label: 'Количество товаров', value: a.count, min: 1, max: 12, onChange: function (v) { s({ count: v }); } })
+                )
+            );
+
+            return el(
+                Fragment,
+                null,
+                inspector,
+                shell(
+                    'Товарная секция',
+                    'Товары подставляются автоматически из WooCommerce.',
+                    el(
+                        'div',
+                        { className: 'imidjstroy-editor-fields' },
+                        el(Text, { label: 'Заголовок', value: a.title, onChange: function (v) { s({ title: v }); } }),
+                        a.sectionType === 'ad' ? el(Text, { label: 'Надзаголовок', value: a.eyebrow, onChange: function (v) { s({ eyebrow: v }); } }) : null,
+                        el(Text, { label: 'Текст ссылки', value: a.link_text, onChange: function (v) { s({ link_text: v }); } })
+                    )
+                )
+            );
+        }
+    );
+
+    reg(
+        'imidjstroy/news',
+        'Новости',
+        'admin-post',
+        {
+            title: { type: 'string', default: 'Новости' },
+            count: { type: 'number', default: 3 },
+            linkText: { type: 'string', default: 'Все новости' }
+        },
+        function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+            return el(
+                Fragment,
+                null,
+                el(Inspector, null, el(Panel, { title: 'Новости', initialOpen: true }, el(Range, { label: 'Количество записей', value: a.count, min: 1, max: 6, onChange: function (v) { s({ count: v }); } }))),
+                shell(
+                    'Новости',
+                    'Автоматически выводит последние опубликованные записи блога.',
+                    el(
+                        'div',
+                        { className: 'imidjstroy-editor-fields' },
+                        el(Text, { label: 'Заголовок', value: a.title, onChange: function (v) { s({ title: v }); } }),
+                        el(Text, { label: 'Текст ссылки', value: a.linkText, onChange: function (v) { s({ linkText: v }); } })
+                    )
+                )
+            );
+        }
+    );
+
+    reg(
+        'imidjstroy/gallery',
+        'Галерея',
+        'format-gallery',
+        {
+            title: { type: 'string', default: 'Галерея' },
+            imageIds: { type: 'array', default: [] },
+            columns: { type: 'number', default: 4 }
+        },
+        function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+
+            var mediaButton = el(
+                MediaUploadCheck,
+                null,
+                el(MediaUpload, {
+                    multiple: true,
+                    gallery: true,
+                    allowedTypes: ['image'],
+                    value: a.imageIds,
+                    onSelect: function (items) {
+                        s({ imageIds: items.map(function (item) { return item.id; }) });
+                    },
+                    render: function (obj) {
+                        return el(
+                            Button,
+                            { variant: 'primary', onClick: obj.open },
+                            a.imageIds.length ? 'Изменить изображения (' + a.imageIds.length + ')' : 'Выбрать изображения'
+                        );
+                    }
+                })
+            );
+
+            return el(
+                Fragment,
+                null,
+                el(Inspector, null, el(Panel, { title: 'Галерея', initialOpen: true }, el(Range, { label: 'Колонки', value: a.columns, min: 2, max: 4, onChange: function (v) { s({ columns: v }); } }))),
+                shell(
+                    'Галерея',
+                    'Выбери изображения из медиатеки. Блок можно добавить в любое место главной.',
+                    el(
+                        'div',
+                        { className: 'imidjstroy-editor-fields' },
+                        el(Text, { label: 'Заголовок', value: a.title, onChange: function (v) { s({ title: v }); } }),
+                        mediaButton
+                    )
+                )
+            );
+        }
+    );
+
+    reg(
+        'imidjstroy/contact',
+        'Форма заявки',
+        'email',
+        {
+            title: { type: 'string', default: 'Оставить заявку' },
+            lead: { type: 'string', default: 'Оставьте заявку и мы свяжемся с вами в ближайшее время' }
+        },
+        function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+            return shell(
+                'Форма заявки',
+                'Контакты берутся из глобальных настроек сайта.',
+                el(
+                    'div',
+                    { className: 'imidjstroy-editor-fields' },
+                    el(Text, { label: 'Заголовок', value: a.title, onChange: function (v) { s({ title: v }); } }),
+                    el(Textarea, { label: 'Описание', value: a.lead, onChange: function (v) { s({ lead: v }); } })
+                )
+            );
+        }
+    );
+
+    reg(
+        'imidjstroy/cta',
+        'Баннер / CTA',
+        'megaphone',
+        {
+            title: { type: 'string', default: 'Нужна консультация?' },
+            text: { type: 'string', default: 'Поможем подобрать материалы под вашу задачу.' },
+            buttonText: { type: 'string', default: 'Связаться с нами' },
+            buttonUrl: { type: 'string', default: '/contacts/' }
+        },
+        function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+            return shell(
+                'Баннер / CTA',
+                'Компактный призыв к действию.',
+                el(
+                    'div',
+                    { className: 'imidjstroy-editor-fields' },
+                    el(Text, { label: 'Заголовок', value: a.title, onChange: function (v) { s({ title: v }); } }),
+                    el(Textarea, { label: 'Текст', value: a.text, onChange: function (v) { s({ text: v }); } }),
+                    el(Text, { label: 'Кнопка', value: a.buttonText, onChange: function (v) { s({ buttonText: v }); } }),
+                    el(Text, { label: 'Ссылка', value: a.buttonUrl, onChange: function (v) { s({ buttonUrl: v }); } })
+                )
+            );
+        }
+    );
+
+    reg(
+        'imidjstroy/text',
+        'Текстовый блок',
+        'text',
+        {
+            eyebrow: { type: 'string', default: '' },
+            title: { type: 'string', default: 'Заголовок блока' },
+            content: { type: 'string', default: 'Добавьте текст в редакторе главной страницы.' }
+        },
+        function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+            return shell(
+                'Текстовый блок',
+                'Для свободного информационного раздела.',
+                el(
+                    'div',
+                    { className: 'imidjstroy-editor-fields' },
+                    el(Text, { label: 'Надзаголовок', value: a.eyebrow, onChange: function (v) { s({ eyebrow: v }); } }),
+                    el(Text, { label: 'Заголовок', value: a.title, onChange: function (v) { s({ title: v }); } }),
+                    el(Textarea, { label: 'Текст', value: a.content, onChange: function (v) { s({ content: v }); } })
+                )
+            );
+        }
+    );
+
+
+    /* =========================================================
+       FLEXIBLE SECTION — native Gutenberg composition
+       ========================================================= */
+    register('imidjstroy/section', {
+        apiVersion: 2,
+        title: 'Свободная секция',
+        description: 'Свободная компоновка: тексты, кнопки, изображения, колонки и другие Gutenberg-элементы.',
+        icon: 'layout',
+        category: 'imidjstroy',
+        attributes: {
+            background: { type: 'string', default: 'white' },
+            padding: { type: 'string', default: 'large' },
+            contentWidth: { type: 'string', default: 'container' },
+            backgroundUrl: { type: 'string', default: '' },
+            backgroundId: { type: 'number', default: 0 },
+            overlay: { type: 'number', default: 0 },
+            verticalAlign: { type: 'string', default: 'center' }
+        },
+        supports: {
+            html: false,
+            anchor: true
+        },
+        edit: function (props) {
+            var a = props.attributes;
+            var s = props.setAttributes;
+            var classes = [
+                'imidjstroy-flex-section',
+                'imidjstroy-flex-section--' + a.background,
+                'imidjstroy-flex-section--pad-' + a.padding,
+                'imidjstroy-flex-section--valign-' + a.verticalAlign
+            ];
+            if (a.backgroundUrl) classes.push('has-background-image');
+
+            var style = {
+                '--imidjstroy-section-overlay': String((a.overlay || 0) / 100)
+            };
+            if (a.backgroundUrl) {
+                style.backgroundImage = 'url("' + a.backgroundUrl.replace(/"/g, '%22') + '")';
+            }
+
+            var blockProps = useBlockProps({
+                className: classes.join(' '),
+                style: style
+            });
+
+            var innerAllowed = [
+                'core/heading', 'core/paragraph', 'core/image',
+                'core/buttons', 'core/button', 'core/columns', 'core/column',
+                'core/group', 'core/list', 'core/list-item', 'core/gallery',
+                'core/media-text', 'core/quote', 'core/separator', 'core/spacer',
+                'imidjstroy/button', 'imidjstroy/contact-item', 'imidjstroy/row',
+                'imidjstroy/categories', 'imidjstroy/product-section',
+                'imidjstroy/news', 'imidjstroy/gallery', 'imidjstroy/contact'
+            ];
+
+            var innerBlocksProps = useInnerBlocksProps(
+                {
+                    className: 'imidjstroy-flex-section__inner imidjstroy-flex-section__inner--' + a.contentWidth
+                },
+                {
+                    allowedBlocks: innerAllowed,
+                    templateLock: false,
+                    template: [
+                        [ 'core/heading', { level: 2, placeholder: 'Заголовок секции' } ],
+                        [ 'core/paragraph', { placeholder: 'Добавьте текст или вставьте другой элемент через +' } ]
+                    ],
+                    renderAppender: function () {
+                        return el(InnerBlocks.ButtonBlockAppender);
+                    }
+                }
+            );
+
+            var mediaControl = el(
+                MediaUploadCheck,
+                null,
+                el(MediaUpload, {
+                    allowedTypes: ['image'],
+                    value: a.backgroundId,
+                    onSelect: function (media) {
+                        s({
+                            backgroundId: media && media.id ? media.id : 0,
+                            backgroundUrl: media && media.url ? media.url : ''
+                        });
+                    },
+                    render: function (obj) {
+                        return el(
+                            Fragment,
+                            null,
+                            el(Button, { variant: 'secondary', onClick: obj.open }, a.backgroundUrl ? 'Изменить фон' : 'Выбрать фон'),
+                            a.backgroundUrl ? el(Button, { isDestructive: true, variant: 'tertiary', onClick: function () { s({ backgroundId: 0, backgroundUrl: '' }); } }, 'Убрать фон') : null
+                        );
+                    }
+                })
+            );
+
+            return el(
+                Fragment,
+                null,
+                el(
+                    InspectorControls,
+                    null,
+                    el(
+                        Panel,
+                        { title: 'Секция', initialOpen: true },
+                        el(Select, {
+                            label: 'Фон',
+                            value: a.background,
+                            options: [
+                                { label: 'Белый', value: 'white' },
+                                { label: 'Светло-серый', value: 'gray' },
+                                { label: 'Светло-зелёный', value: 'soft-green' },
+                                { label: 'Зелёный', value: 'green' },
+                                { label: 'Тёмный', value: 'dark' }
+                            ],
+                            onChange: function (v) { s({ background: v }); }
+                        }),
+                        el(Select, {
+                            label: 'Вертикальные отступы',
+                            value: a.padding,
+                            options: [
+                                { label: 'Без отступов', value: 'none' },
+                                { label: 'Маленькие', value: 'small' },
+                                { label: 'Средние', value: 'medium' },
+                                { label: 'Большие', value: 'large' },
+                                { label: 'Очень большие', value: 'xlarge' }
+                            ],
+                            onChange: function (v) { s({ padding: v }); }
+                        }),
+                        el(Select, {
+                            label: 'Ширина содержимого',
+                            value: a.contentWidth,
+                            options: [
+                                { label: 'Контейнер сайта', value: 'container' },
+                                { label: 'Узкая', value: 'narrow' },
+                                { label: 'На всю ширину', value: 'wide' }
+                            ],
+                            onChange: function (v) { s({ contentWidth: v }); }
+                        }),
+                        el('div', { className: 'imidjstroy-editor-media-control' }, mediaControl),
+                        a.backgroundUrl ? el(Range, { label: 'Затемнение фона', value: a.overlay, min: 0, max: 80, step: 5, onChange: function (v) { s({ overlay: v }); } }) : null
+                    )
+                ),
+                el(
+                    'section',
+                    blockProps,
+                    el('div', innerBlocksProps)
+                )
+            );
+        },
+        save: function (props) {
+            var a = props.attributes;
+            var classes = [
+                'imidjstroy-flex-section',
+                'imidjstroy-flex-section--' + a.background,
+                'imidjstroy-flex-section--pad-' + a.padding,
+                'imidjstroy-flex-section--valign-' + a.verticalAlign
+            ];
+            if (a.backgroundUrl) classes.push('has-background-image');
+
+            var style = {
+                '--imidjstroy-section-overlay': String((a.overlay || 0) / 100)
+            };
+            if (a.backgroundUrl) {
+                style.backgroundImage = 'url("' + a.backgroundUrl.replace(/"/g, '%22') + '")';
+            }
+
+            var blockProps = useBlockProps.save({
+                className: classes.join(' '),
+                style: style
+            });
+
+            var innerBlocksProps = useInnerBlocksProps.save({
+                className: 'imidjstroy-flex-section__inner imidjstroy-flex-section__inner--' + a.contentWidth
+            });
+
+            return el(
+                'section',
+                blockProps,
+                el('div', innerBlocksProps)
+            );
+        }
+    });
+
+})(window.wp);

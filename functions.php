@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once get_template_directory() . '/inc/site-settings.php';
+require_once get_template_directory() . '/inc/home-blocks.php';
 
 function imidjstroy_setup() {
     add_theme_support( 'title-tag' );

@@ -4,6 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+$args = wp_parse_args( isset( $args ) && is_array( $args ) ? $args : [], [ 'title' => 'Оставить заявку', 'lead' => 'Оставьте заявку и мы свяжемся с вами в ближайшее время' ] );
+
 $status = isset( $_GET['contact_status'] )
     ? sanitize_key( wp_unslash( $_GET['contact_status'] ) )
     : '';
@@ -18,10 +20,10 @@ $site_address = imidjstroy_get_site_setting( 'address' );
         <div class="home-contact__grid">
 
             <div class="home-contact__info">
-                <h2 class="home-contact__title">Оставить заявку</h2>
+                <h2 class="home-contact__title"><?php echo esc_html( $args['title'] ); ?></h2>
 
                 <p class="home-contact__lead">
-                    Оставьте заявку и мы свяжемся с вами в ближайшее время
+                    <?php echo esc_html( $args['lead'] ); ?>
                 </p>
 
                 <ul class="home-contact__contacts">

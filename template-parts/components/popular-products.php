@@ -4,13 +4,16 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+$args = wp_parse_args( isset( $args ) && is_array( $args ) ? $args : [], [ 'title' => 'Популярные товары', 'link_text' => 'Смотреть все', 'count' => 8 ] );
+$args['count'] = max( 1, min( 12, absint( $args['count'] ) ) );
+
 $popular_products = [];
 
 if ( class_exists( 'WooCommerce' ) ) {
     $query = new WP_Query( [
         'post_type'      => 'product',
         'post_status'    => 'publish',
-        'posts_per_page' => 8,
+        'posts_per_page' => $args['count'],
         'orderby'        => 'date',
         'order'          => 'DESC',
     ] );
@@ -28,13 +31,13 @@ if ( empty( $popular_products ) ) {
     <div class="container">
 
         <div class="home-popular__heading">
-            <h2 class="home-popular__title">Популярные товары</h2>
+            <h2 class="home-popular__title"><?php echo esc_html( $args['title'] ); ?></h2>
 
             <a
                 href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"
                 class="home-popular__all"
             >
-                Смотреть все
+                <?php echo esc_html( $args['link_text'] ); ?>
 
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M5 12h14"></path>

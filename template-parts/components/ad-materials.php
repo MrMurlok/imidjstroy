@@ -4,6 +4,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+$args = wp_parse_args( isset( $args ) && is_array( $args ) ? $args : [], [ 'title' => 'Рекламные материалы', 'eyebrow' => 'Для производства рекламы', 'link_text' => 'Смотреть все', 'count' => 8 ] );
+$args['count'] = max( 1, min( 12, absint( $args['count'] ) ) );
+
 $ad_products = [];
 $ad_parent   = null;
 
@@ -55,7 +58,7 @@ if ( class_exists( 'WooCommerce' ) && taxonomy_exists( 'product_cat' ) ) {
         $query = new WP_Query( [
             'post_type'      => 'product',
             'post_status'    => 'publish',
-            'posts_per_page' => 8,
+            'posts_per_page' => $args['count'],
             'orderby'        => 'date',
             'order'          => 'DESC',
             'tax_query'      => [
@@ -79,8 +82,8 @@ if ( class_exists( 'WooCommerce' ) && taxonomy_exists( 'product_cat' ) ) {
 
         <div class="home-ad-materials__heading">
             <div>
-                <span class="home-ad-materials__eyebrow">Для производства рекламы</span>
-                <h2 class="home-ad-materials__title">Рекламные материалы</h2>
+                <span class="home-ad-materials__eyebrow"><?php echo esc_html( $args['eyebrow'] ); ?></span>
+                <h2 class="home-ad-materials__title"><?php echo esc_html( $args['title'] ); ?></h2>
             </div>
 
             <a
@@ -93,7 +96,7 @@ if ( class_exists( 'WooCommerce' ) && taxonomy_exists( 'product_cat' ) ) {
                 ?>"
                 class="home-ad-materials__all"
             >
-                Смотреть все
+                <?php echo esc_html( $args['link_text'] ); ?>
 
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M5 12h14"></path>
