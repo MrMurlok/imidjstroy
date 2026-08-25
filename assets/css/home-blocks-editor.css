@@ -1083,3 +1083,1171 @@
     display: none !important;
 }
 
+
+
+/* =========================================================
+   FEATURES — fixed 4-card text editor
+   Frontend markup stays unchanged. Only title/description are editable.
+   ========================================================= */
+.editor-styles-wrapper [data-type="imidjstroy/features"],
+.editor-styles-wrapper .wp-block-imidjstroy-features {
+    position: relative;
+    left: 50%;
+    width: min(1280px, calc(100vw - 64px));
+    max-width: none !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-features.imidjstroy-editor-block-wrap {
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+.editor-styles-wrapper .imidjstroy-features-editor.home-features {
+    width: 100%;
+    padding: 2rem 0;
+    border: 0;
+    background: hsl(var(--background));
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-features-editor > .container {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-features-editor .home-features__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.editor-styles-wrapper .imidjstroy-features-editor .home-feature-card {
+    display: flex;
+    min-width: 0;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    background: hsl(var(--card));
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-features-editor .home-feature-card__icon {
+    display: flex;
+    width: 3rem;
+    height: 3rem;
+    flex: 0 0 3rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: hsl(var(--primary) / 0.10);
+    color: hsl(var(--primary));
+}
+
+.editor-styles-wrapper .imidjstroy-features-editor .home-feature-card__icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.editor-styles-wrapper .imidjstroy-features-editor .home-feature-card__content {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.editor-styles-wrapper .imidjstroy-features-editor .home-feature-card__title {
+    min-width: 1px;
+    margin: 0;
+    color: hsl(var(--card-foreground));
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    cursor: text;
+}
+
+.editor-styles-wrapper .imidjstroy-features-editor .home-feature-card__description {
+    min-width: 1px;
+    margin: 0.125rem 0 0;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.75rem;
+    line-height: 1rem;
+    cursor: text;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-features.is-selected .imidjstroy-features-editor,
+.editor-styles-wrapper [data-type="imidjstroy/features"].is-selected .imidjstroy-features-editor {
+    box-shadow: 0 0 0 2px rgb(34 168 98 / 0.10);
+}
+
+@media (max-width: 1100px) {
+    .editor-styles-wrapper .imidjstroy-features-editor .home-features__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 782px) {
+    .editor-styles-wrapper [data-type="imidjstroy/features"],
+    .editor-styles-wrapper .wp-block-imidjstroy-features {
+        width: calc(100vw - 32px);
+    }
+}
+
+@media (max-width: 640px) {
+    .editor-styles-wrapper .imidjstroy-features-editor .home-features__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   CATEGORIES — WooCommerce-driven visual preview
+   Only section title and "Смотреть все" text are editable here.
+   Category cards remain managed by WooCommerce.
+   ========================================================= */
+.editor-styles-wrapper [data-type="imidjstroy/categories"],
+.editor-styles-wrapper .wp-block-imidjstroy-categories {
+    position: relative;
+    left: 50%;
+    width: min(1280px, calc(100vw - 64px));
+    max-width: none !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-categories.imidjstroy-editor-block-wrap {
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor.home-categories {
+    width: 100%;
+    padding: 3rem 0;
+    border: 0;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor > .container {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__title {
+    min-width: 1px;
+    margin: 0;
+    color: hsl(var(--foreground));
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 2rem;
+    cursor: text;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__all {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    color: hsl(var(--muted-foreground));
+    font-size: .875rem;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .imidjstroy-categories-editor__all {
+    cursor: text;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__all svg {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__carousel-wrap {
+    position: relative;
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__viewport {
+    width: 100%;
+    padding-top: .5rem;
+    padding-bottom: .75rem;
+    margin-top: -.5rem;
+    margin-bottom: -.75rem;
+    overflow: hidden;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__track {
+    display: flex;
+    margin-left: -.75rem;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__item {
+    min-width: 0;
+    flex: 0 0 20%;
+    padding-left: .75rem;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .category-card {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 10rem;
+    overflow: hidden;
+    border: 2px solid rgb(0 0 0 / .35);
+    border-radius: .75rem;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .category-card__image,
+.editor-styles-wrapper .imidjstroy-categories-editor .category-card__fallback,
+.editor-styles-wrapper .imidjstroy-categories-editor .category-card__gradient {
+    position: absolute;
+    inset: 0;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .category-card__image {
+    background-position: center;
+    background-size: cover;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .category-card__fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(209 213 219);
+    font-size: 3rem;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .category-card__gradient {
+    top: auto;
+    height: 35%;
+    background: linear-gradient(to top, rgb(0 0 0 / 1), rgb(0 0 0 / .50), transparent);
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .category-card__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 1rem .5rem;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .category-card__name {
+    display: -webkit-box;
+    max-width: 100%;
+    overflow: hidden;
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: center;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    -webkit-text-stroke: .5px rgb(0 0 0 / .30);
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .category-card__count {
+    margin-top: .25rem;
+    color: #fff;
+    font-size: .75rem;
+    text-align: center;
+    -webkit-text-stroke: .5px rgb(0 0 0 / .20);
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    display: inline-flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid hsl(var(--border));
+    border-radius: 999px;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    box-shadow: 0 2px 8px rgb(0 0 0 / .08);
+    transform: translateY(-50%);
+    opacity: 1;
+    pointer-events: none;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__arrow svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__arrow--prev { left: 0; }
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__arrow--next { right: 0; }
+
+.editor-styles-wrapper .imidjstroy-categories-editor .home-categories__empty {
+    padding: 2rem;
+    border: 1px dashed hsl(var(--border));
+    border-radius: var(--radius);
+    color: hsl(var(--muted-foreground));
+    text-align: center;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-categories.is-selected .imidjstroy-categories-editor,
+.editor-styles-wrapper [data-type="imidjstroy/categories"].is-selected .imidjstroy-categories-editor {
+    box-shadow: 0 0 0 2px rgb(34 168 98 / .10);
+}
+
+@media (max-width: 1100px) {
+    .editor-styles-wrapper .imidjstroy-categories-editor .home-categories__item {
+        flex-basis: 25%;
+    }
+}
+
+@media (max-width: 900px) {
+    .editor-styles-wrapper .imidjstroy-categories-editor .home-categories__item {
+        flex-basis: 33.333333%;
+    }
+}
+
+@media (max-width: 782px) {
+    .editor-styles-wrapper [data-type="imidjstroy/categories"],
+    .editor-styles-wrapper .wp-block-imidjstroy-categories {
+        width: calc(100vw - 32px);
+    }
+}
+
+@media (max-width: 640px) {
+    .editor-styles-wrapper .imidjstroy-categories-editor .home-categories__item {
+        flex-basis: 50%;
+    }
+}
+
+
+/* =========================================================
+   PRODUCT SECTIONS — WooCommerce-driven visual preview
+   Section type and product count are fixed. Only section texts are editable.
+   ========================================================= */
+.editor-styles-wrapper [data-type="imidjstroy/product-section"],
+.editor-styles-wrapper .wp-block-imidjstroy-product-section {
+    position: relative;
+    left: 50%;
+    width: min(1280px, calc(100vw - 64px));
+    max-width: none !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-product-section.imidjstroy-editor-block-wrap {
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor {
+    width: 100%;
+    padding: 3rem 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor--building,
+.editor-styles-wrapper .imidjstroy-product-section-editor--popular {
+    background: hsl(var(--accent));
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor--ad {
+    background: hsl(var(--background));
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor > .container {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-building__heading,
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-ad-materials__heading,
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-popular__heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-building__heading,
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-ad-materials__heading {
+    align-items: end;
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-popular__heading {
+    align-items: center;
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-building__eyebrow,
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-ad-materials__eyebrow {
+    display: block;
+    margin-bottom: .25rem;
+    color: hsl(var(--primary));
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    line-height: 1.25;
+    text-transform: uppercase;
+    cursor: text;
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-building__title,
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-ad-materials__title,
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-popular__title {
+    margin: 0;
+    color: hsl(var(--foreground));
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 2rem;
+    cursor: text;
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-building__all,
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-ad-materials__all,
+.editor-styles-wrapper .imidjstroy-product-section-editor .home-popular__all {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: .25rem;
+    color: hsl(var(--muted-foreground));
+    font-size: .875rem;
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor__all {
+    cursor: text;
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor__all svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 1rem;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card {
+    display: flex;
+    min-width: 0;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid hsl(var(--border));
+    border-radius: .75rem;
+    background: hsl(var(--card));
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__media {
+    position: relative;
+    display: flex;
+    aspect-ratio: 1 / 1;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow: hidden;
+    background: hsl(var(--accent));
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: .5rem;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__placeholder {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    border-radius: .5rem;
+    background: hsl(var(--muted) / .50);
+    color: hsl(var(--muted-foreground));
+    font-size: .75rem;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__badge,
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__availability {
+    position: absolute;
+    top: .75rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.25rem;
+    padding: .125rem .5rem;
+    border-radius: calc(var(--radius) - 4px);
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__badge {
+    left: .75rem;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__badge.is-discount {
+    background: #dc2626;
+    color: #fff;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__availability {
+    right: .75rem;
+    background: rgba(255,255,255,.92);
+    color: #dc2626;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__category {
+    color: hsl(var(--primary));
+    font-size: .75rem;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__name {
+    display: -webkit-box;
+    min-height: 2.5rem;
+    margin: .25rem 0 0;
+    overflow: hidden;
+    color: hsl(var(--card-foreground));
+    font-size: .875rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__description {
+    display: -webkit-box;
+    margin: .35rem 0 0;
+    overflow: hidden;
+    color: hsl(var(--muted-foreground));
+    font-size: .75rem;
+    line-height: 1rem;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__sku,
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__stock {
+    display: block;
+    margin-top: .25rem;
+    font-size: .75rem;
+    line-height: 1rem;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__sku {
+    color: hsl(var(--muted-foreground));
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__stock.is-in-stock {
+    color: #16a34a;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__stock.is-out-of-stock {
+    color: #ef4444;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin-top: auto;
+    padding-top: .75rem;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__amount {
+    display: block;
+    color: hsl(var(--foreground));
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.5rem;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__unit {
+    display: block;
+    color: hsl(var(--muted-foreground));
+    font-size: .75rem;
+    line-height: 1rem;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__actions {
+    display: flex;
+    align-items: center;
+    gap: .375rem;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__action {
+    display: inline-flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid hsl(var(--border));
+    border-radius: calc(var(--radius) - 2px);
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__action--cart {
+    border-color: hsl(var(--primary));
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__action.is-disabled {
+    opacity: .45;
+}
+
+.editor-styles-wrapper .imidjstroy-product-preview-card .product-card__action svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.editor-styles-wrapper .imidjstroy-product-section-editor__empty {
+    padding: 2rem;
+    border: 1px dashed hsl(var(--border));
+    border-radius: var(--radius);
+    background: hsl(var(--background));
+    color: hsl(var(--muted-foreground));
+    text-align: center;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-product-section.is-selected .imidjstroy-product-section-editor,
+.editor-styles-wrapper [data-type="imidjstroy/product-section"].is-selected .imidjstroy-product-section-editor {
+    box-shadow: 0 0 0 2px rgb(34 168 98 / .10);
+}
+
+@media (max-width: 1023px) {
+    .editor-styles-wrapper .imidjstroy-product-section-editor__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 782px) {
+    .editor-styles-wrapper [data-type="imidjstroy/product-section"],
+    .editor-styles-wrapper .wp-block-imidjstroy-product-section {
+        width: calc(100vw - 32px);
+    }
+}
+
+@media (max-width: 639px) {
+    .editor-styles-wrapper .imidjstroy-product-section-editor__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .editor-styles-wrapper .imidjstroy-product-section-editor .home-building__heading,
+    .editor-styles-wrapper .imidjstroy-product-section-editor .home-ad-materials__heading,
+    .editor-styles-wrapper .imidjstroy-product-section-editor .home-popular__heading {
+        align-items: flex-start;
+    }
+}
+
+
+/* =========================================================
+   NEWS — WordPress-posts visual preview
+   The section is fixed to three latest published posts.
+   Only section title and "All news" text are editable here.
+   ========================================================= */
+.editor-styles-wrapper [data-type="imidjstroy/news"],
+.editor-styles-wrapper .wp-block-imidjstroy-news {
+    position: relative;
+    left: 50%;
+    width: min(1280px, calc(100vw - 64px));
+    max-width: none !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-news.imidjstroy-editor-block-wrap {
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor.home-news {
+    width: 100%;
+    padding: 3.5rem 0;
+    border: 0;
+    background: hsl(var(--background));
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor > .container {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .home-news__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .home-news__heading h2 {
+    margin: 0;
+    color: hsl(var(--foreground));
+    font-size: clamp(1.5rem, 2.8vw, 2rem);
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: text;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor__all {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: .35rem;
+    color: hsl(var(--primary));
+    font-size: .86rem;
+    font-weight: 600;
+    cursor: text;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor__all svg,
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card__more svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 1.5rem;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card {
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid hsl(var(--border));
+    border-radius: 1rem;
+    background: hsl(var(--card));
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card__link {
+    display: block;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card__media {
+    display: flex;
+    aspect-ratio: 4 / 3;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: hsl(var(--muted));
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card__placeholder {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    color: hsl(var(--muted-foreground));
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card__placeholder svg {
+    width: 2.25rem;
+    height: 2.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card__body {
+    padding: 1.25rem;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card__date {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    color: hsl(var(--muted-foreground));
+    font-size: .75rem;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card__date svg {
+    width: .95rem;
+    height: .95rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card h2 {
+    display: -webkit-box;
+    margin: .55rem 0 .4rem;
+    overflow: hidden;
+    color: hsl(var(--foreground));
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card p {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    color: hsl(var(--muted-foreground));
+    font-size: .85rem;
+    line-height: 1.55;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor .blog-card__more {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    margin-top: .9rem;
+    color: hsl(var(--primary));
+    font-size: .85rem;
+    font-weight: 500;
+}
+
+.editor-styles-wrapper .imidjstroy-news-editor__empty {
+    padding: 2rem;
+    border: 1px dashed hsl(var(--border));
+    border-radius: var(--radius);
+    color: hsl(var(--muted-foreground));
+    text-align: center;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-news.is-selected .imidjstroy-news-editor,
+.editor-styles-wrapper [data-type="imidjstroy/news"].is-selected .imidjstroy-news-editor {
+    box-shadow: 0 0 0 2px rgb(34 168 98 / .10);
+}
+
+@media (max-width: 900px) {
+    .editor-styles-wrapper .imidjstroy-news-editor__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 782px) {
+    .editor-styles-wrapper [data-type="imidjstroy/news"],
+    .editor-styles-wrapper .wp-block-imidjstroy-news {
+        width: calc(100vw - 32px);
+    }
+}
+
+@media (max-width: 640px) {
+    .editor-styles-wrapper .imidjstroy-news-editor.home-news {
+        padding: 2.75rem 0;
+    }
+
+    .editor-styles-wrapper .imidjstroy-news-editor .home-news__heading {
+        align-items: flex-start;
+    }
+
+    .editor-styles-wrapper .imidjstroy-news-editor__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================================
+   CONTACT FORM — fixed visual preview
+   Structure and functional fields remain fixed. Only section title,
+   description and submit-button text are editable in Gutenberg.
+   ========================================================= */
+.editor-styles-wrapper [data-type="imidjstroy/contact"],
+.editor-styles-wrapper .wp-block-imidjstroy-contact {
+    position: relative;
+    left: 50%;
+    width: min(1280px, calc(100vw - 64px));
+    max-width: none !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-contact.imidjstroy-editor-block-wrap {
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor.home-contact {
+    width: 100%;
+    padding: 4rem 0;
+    border: 0;
+    background: hsl(var(--background));
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor > .container {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem;
+    align-items: start;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__title {
+    margin: 0 0 1rem;
+    color: hsl(var(--foreground));
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 2rem;
+    cursor: text;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__lead {
+    margin: 0 0 1.5rem;
+    color: hsl(var(--muted-foreground));
+    line-height: 1.625;
+    cursor: text;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__contacts {
+    display: grid;
+    gap: .75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: hsl(var(--foreground));
+    font-size: .875rem;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__contacts li {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin: 0;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__contacts svg {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 1rem;
+    fill: none;
+    stroke: hsl(var(--primary));
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__form {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: .75rem;
+    background: hsl(var(--card));
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__field label {
+    display: block;
+    margin-bottom: .375rem;
+    color: hsl(var(--card-foreground));
+    font-size: .875rem;
+    font-weight: 500;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__field input,
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__field textarea {
+    display: block;
+    width: 100%;
+    border: 1px solid hsl(var(--input));
+    border-radius: calc(var(--radius) - 2px);
+    outline: none;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font: inherit;
+    font-size: .875rem;
+    box-shadow: none;
+    box-sizing: border-box;
+    cursor: default;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__field input {
+    height: 2.5rem;
+    padding: 0 .75rem;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__field textarea {
+    min-height: 6rem;
+    padding: .625rem .75rem;
+    resize: none;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__field input::placeholder,
+.editor-styles-wrapper .imidjstroy-contact-editor .home-contact__field textarea::placeholder {
+    color: hsl(var(--muted-foreground));
+    opacity: 1;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor__submit.home-contact__submit {
+    display: inline-flex;
+    width: 100%;
+    min-height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    padding: 0 1rem;
+    border: 0;
+    border-radius: calc(var(--radius) - 2px);
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    font-size: .875rem;
+    font-weight: 500;
+    box-sizing: border-box;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor__submit.home-contact__submit svg {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.editor-styles-wrapper .imidjstroy-contact-editor__submit .js-contact-submit-text {
+    min-width: 1ch;
+    color: inherit;
+    cursor: text;
+}
+
+.editor-styles-wrapper .wp-block-imidjstroy-contact.is-selected .imidjstroy-contact-editor,
+.editor-styles-wrapper [data-type="imidjstroy/contact"].is-selected .imidjstroy-contact-editor {
+    box-shadow: 0 0 0 2px rgb(34 168 98 / .10);
+}
+
+@media (max-width: 900px) {
+    .editor-styles-wrapper .imidjstroy-contact-editor .home-contact__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 782px) {
+    .editor-styles-wrapper [data-type="imidjstroy/contact"],
+    .editor-styles-wrapper .wp-block-imidjstroy-contact {
+        width: calc(100vw - 32px);
+    }
+}
+
+@media (max-width: 639px) {
+    .editor-styles-wrapper .imidjstroy-contact-editor.home-contact {
+        padding: 3rem 0;
+    }
+
+    .editor-styles-wrapper .imidjstroy-contact-editor .home-contact__row {
+        grid-template-columns: 1fr;
+    }
+}

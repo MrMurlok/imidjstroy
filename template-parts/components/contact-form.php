@@ -4,7 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$args = wp_parse_args( isset( $args ) && is_array( $args ) ? $args : [], [ 'title' => 'Оставить заявку', 'lead' => 'Оставьте заявку и мы свяжемся с вами в ближайшее время' ] );
+$args = wp_parse_args( isset( $args ) && is_array( $args ) ? $args : [], [
+    'title'      => 'Оставить заявку',
+    'lead'       => 'Оставьте заявку и мы свяжемся с вами в ближайшее время',
+    'buttonText' => 'Отправить',
+] );
 
 $status = isset( $_GET['contact_status'] )
     ? sanitize_key( wp_unslash( $_GET['contact_status'] ) )
@@ -148,7 +152,7 @@ $site_address = imidjstroy_get_site_setting( 'address' );
                         </svg>
 
                         <span class="js-contact-submit-text">
-                            Отправить
+                            <?php echo esc_html( $args['buttonText'] ); ?>
                         </span>
                     </button>
 

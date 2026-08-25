@@ -4,7 +4,10 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$args = wp_parse_args( isset( $args ) && is_array( $args ) ? $args : [], [ 'title' => 'Стройматериалы', 'link_text' => 'Смотреть все', 'count' => 8 ] );
+$args = wp_parse_args( isset( $args ) && is_array( $args ) ? $args : [], [ 'title' => 'Стройматериалы', 'eyebrow' => 'Всё для ремонта и строительства', 'link_text' => 'Смотреть все', 'count' => 8 ] );
+if ( '' === trim( (string) $args['eyebrow'] ) ) {
+    $args['eyebrow'] = 'Всё для ремонта и строительства';
+}
 $args['count'] = max( 1, min( 12, absint( $args['count'] ) ) );
 
 $building_products = [];
@@ -54,8 +57,11 @@ if ( class_exists( 'WooCommerce' ) && taxonomy_exists( 'product_cat' ) ) {
 <section class="home-building home-product-section">
     <div class="container">
 
-        <div class="home-building__heading">
-            <h2 class="home-building__title"><?php echo esc_html( $args['title'] ); ?></h2>
+        <div class="home-building__heading home-ad-materials__heading">
+            <div>
+                <span class="home-building__eyebrow home-ad-materials__eyebrow"><?php echo esc_html( $args['eyebrow'] ); ?></span>
+                <h2 class="home-building__title"><?php echo esc_html( $args['title'] ); ?></h2>
+            </div>
 
             <a
                 href="<?php

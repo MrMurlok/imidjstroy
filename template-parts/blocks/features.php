@@ -6,7 +6,19 @@ $defaults = [
  [ 'title'=>'Удобное время', 'description'=>imidjstroy_get_site_setting( 'hours_feature' ) ],
  [ 'title'=>'Поддержка', 'description'=>'Консультации по выбору материалов' ],
 ];
-$items = ! empty( $args['items'] ) && is_array( $args['items'] ) ? array_values( $args['items'] ) : $defaults;
+$saved_items = ! empty( $args['items'] ) && is_array( $args['items'] ) ? array_values( $args['items'] ) : [];
+$items       = [];
+
+// This section is intentionally fixed to four cards. Only their text is editable.
+foreach ( $defaults as $index => $fallback ) {
+    $saved = isset( $saved_items[ $index ] ) && is_array( $saved_items[ $index ] ) ? $saved_items[ $index ] : [];
+
+    $items[] = [
+        'title'       => array_key_exists( 'title', $saved ) ? (string) $saved['title'] : $fallback['title'],
+        'description' => array_key_exists( 'description', $saved ) ? (string) $saved['description'] : $fallback['description'],
+    ];
+}
+
 $icons = [
  '<svg viewBox="0 0 24 24"><path d="M10 17h4V5H2v12h3"></path><path d="M14 9h4l4 4v4h-3"></path><circle cx="7.5" cy="17.5" r="2.5"></circle><circle cx="16.5" cy="17.5" r="2.5"></circle></svg>',
  '<svg viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V5l8-3 8 3v8Z"></path><path d="m9 12 2 2 4-4"></path></svg>',

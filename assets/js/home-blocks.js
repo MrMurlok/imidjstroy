@@ -435,6 +435,60 @@
         }
     });
 
+    var featureHours = (window.imidjstroyHomeEditor && window.imidjstroyHomeEditor.featureHours)
+        ? window.imidjstroyHomeEditor.featureHours
+        : 'Пн–Пт: 9:00–18:00';
+
+    var featureDefaults = [
+        { title: 'Быстрая доставка', description: 'Доставка по Владивостоку и области' },
+        { title: 'Гарантия качества', description: 'Только сертифицированные товары' },
+        { title: 'Удобное время', description: featureHours },
+        { title: 'Поддержка', description: 'Консультации по выбору материалов' }
+    ];
+
+    function normalizeFeatureItems(items) {
+        return featureDefaults.map(function (fallback, index) {
+            var item = Array.isArray(items) && items[index] ? items[index] : {};
+            return {
+                title: typeof item.title === 'string' ? item.title : fallback.title,
+                description: typeof item.description === 'string' ? item.description : fallback.description
+            };
+        });
+    }
+
+    function featureIconNode(index) {
+        var common = { viewBox: '0 0 24 24', 'aria-hidden': 'true' };
+
+        if (index === 0) {
+            return el('svg', common,
+                el('path', { d: 'M10 17h4V5H2v12h3' }),
+                el('path', { d: 'M14 9h4l4 4v4h-3' }),
+                el('circle', { cx: '7.5', cy: '17.5', r: '2.5' }),
+                el('circle', { cx: '16.5', cy: '17.5', r: '2.5' })
+            );
+        }
+
+        if (index === 1) {
+            return el('svg', common,
+                el('path', { d: 'M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V5l8-3 8 3v8Z' }),
+                el('path', { d: 'm9 12 2 2 4-4' })
+            );
+        }
+
+        if (index === 2) {
+            return el('svg', common,
+                el('circle', { cx: '12', cy: '12', r: '9' }),
+                el('path', { d: 'M12 7v5l3 2' })
+            );
+        }
+
+        return el('svg', common,
+            el('path', { d: 'M4 13a8 8 0 0 1 16 0' }),
+            el('path', { d: 'M18 19h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2h-1v7Z' }),
+            el('path', { d: 'M6 19H5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h1v7Z' })
+        );
+    }
+
     reg(
         'imidjstroy/features',
         'Преимущества',
@@ -442,42 +496,93 @@
         {
             items: {
                 type: 'array',
-                default: [
-                    { title: 'Быстрая доставка', description: 'Доставка по Владивостоку и области' },
-                    { title: 'Гарантия качества', description: 'Только сертифицированные товары' },
-                    { title: 'Удобное время', description: 'Пн–Пт: 9:00–18:00' },
-                    { title: 'Поддержка', description: 'Консультации по выбору материалов' }
-                ]
+                default: featureDefaults
             }
         },
         function (props) {
-            var a = props.attributes;
             var s = props.setAttributes;
+            var items = normalizeFeatureItems(props.attributes.items);
 
             function updateItem(index, key, value) {
-                var items = a.items.map(function (item) { return Object.assign({}, item); });
-                items[index][key] = value;
-                s({ items: items });
+                var nextItems = items.map(function (item) { return Object.assign({}, item); });
+                nextItems[index][key] = value;
+                s({ items: nextItems });
             }
 
-            return shell(
-                'Преимущества',
-                'Четыре фирменные карточки.',
+            return el(
+                'section',
+                { className: 'home-features imidjstroy-features-editor' },
                 el(
                     'div',
-                    { className: 'imidjstroy-editor-features' },
-                    a.items.map(function (item, index) {
-                        return el(
-                            'div',
-                            { className: 'imidjstroy-editor-mini', key: index },
-                            el(Text, { label: 'Заголовок ' + (index + 1), value: item.title, onChange: function (v) { updateItem(index, 'title', v); } }),
-                            el(Text, { label: 'Описание', value: item.description, onChange: function (v) { updateItem(index, 'description', v); } })
-                        );
-                    })
+                    { className: 'container' },
+                    el(
+                        'div',
+                        { className: 'home-features__grid' },
+                        items.map(function (item, index) {
+                            return el(
+                                'article',
+                                { className: 'home-feature-card', key: index },
+                                el('div', { className: 'home-feature-card__icon', 'aria-hidden': 'true' }, featureIconNode(index)),
+                                el(
+                                    'div',
+                                    { className: 'home-feature-card__content' },
+                                    el(RichText, {
+                                        tagName: 'h3',
+                                        className: 'home-feature-card__title',
+                                        value: item.title,
+                                        allowedFormats: [],
+                                        disableLineBreaks: true,
+                                        placeholder: 'Заголовок',
+                                        onChange: function (v) { updateItem(index, 'title', v); }
+                                    }),
+                                    el(RichText, {
+                                        tagName: 'p',
+                                        className: 'home-feature-card__description',
+                                        value: item.description,
+                                        allowedFormats: [],
+                                        disableLineBreaks: true,
+                                        placeholder: 'Описание',
+                                        onChange: function (v) { updateItem(index, 'description', v); }
+                                    })
+                                )
+                            );
+                        })
+                    )
                 )
             );
         }
     );
+
+    var editorCategories = (window.imidjstroyHomeEditor && Array.isArray(window.imidjstroyHomeEditor.categories))
+        ? window.imidjstroyHomeEditor.categories
+        : [];
+
+    function categoryCountText(count) {
+        var value = Math.max(0, parseInt(count, 10) || 0);
+        var mod10 = value % 10;
+        var mod100 = value % 100;
+        var word = 'товаров';
+
+        if (mod10 === 1 && mod100 !== 11) {
+            word = 'товар';
+        } else if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) {
+            word = 'товара';
+        }
+
+        return value + ' ' + word;
+    }
+
+    function categoriesArrowNode(direction) {
+        var path = direction === 'prev' ? 'm15 18-6-6 6-6' : 'm9 18 6-6-6-6';
+        return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' }, el('path', { d: path }));
+    }
+
+    function categoriesAllArrowNode() {
+        return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+            el('path', { d: 'M5 12h14' }),
+            el('path', { d: 'm13 6 6 6-6 6' })
+        );
+    }
 
     reg(
         'imidjstroy/categories',
@@ -490,18 +595,212 @@
         function (props) {
             var a = props.attributes;
             var s = props.setAttributes;
-            return shell(
-                'Категории',
-                'Карточки автоматически берутся из WooCommerce.',
+
+            return el(
+                'section',
+                { className: 'home-categories imidjstroy-categories-editor' },
                 el(
                     'div',
-                    { className: 'imidjstroy-editor-fields' },
-                    el(Text, { label: 'Заголовок', value: a.title, onChange: function (v) { s({ title: v }); } }),
-                    el(Text, { label: 'Текст ссылки', value: a.link_text, onChange: function (v) { s({ link_text: v }); } })
+                    { className: 'container' },
+                    el(
+                        'div',
+                        { className: 'home-categories__heading' },
+                        el(RichText, {
+                            tagName: 'h2',
+                            className: 'home-categories__title',
+                            value: a.title,
+                            allowedFormats: [],
+                            disableLineBreaks: true,
+                            placeholder: 'Категории',
+                            onChange: function (v) { s({ title: v }); }
+                        }),
+                        el(
+                            'div',
+                            { className: 'home-categories__all imidjstroy-categories-editor__all' },
+                            el(RichText, {
+                                tagName: 'span',
+                                value: a.link_text,
+                                allowedFormats: [],
+                                disableLineBreaks: true,
+                                placeholder: 'Смотреть все',
+                                onChange: function (v) { s({ link_text: v }); }
+                            }),
+                            categoriesAllArrowNode()
+                        )
+                    ),
+                    editorCategories.length
+                        ? el(
+                            'div',
+                            { className: 'home-categories__carousel-wrap' },
+                            el('button', {
+                                type: 'button',
+                                className: 'home-categories__arrow home-categories__arrow--prev',
+                                disabled: true,
+                                tabIndex: -1,
+                                'aria-hidden': 'true'
+                            }, categoriesArrowNode('prev')),
+                            el(
+                                'div',
+                                { className: 'home-categories__viewport' },
+                                el(
+                                    'div',
+                                    { className: 'home-categories__track' },
+                                    editorCategories.map(function (category, index) {
+                                        var imageStyle = category.image
+                                            ? { backgroundImage: 'url("' + String(category.image).replace(/"/g, '%22') + '")' }
+                                            : {};
+
+                                        return el(
+                                            'div',
+                                            { className: 'home-categories__item', key: category.id || index },
+                                            el(
+                                                'div',
+                                                { className: 'category-card' },
+                                                category.image
+                                                    ? el('div', { className: 'category-card__image', style: imageStyle, 'aria-hidden': 'true' })
+                                                    : el('div', { className: 'category-card__fallback', 'aria-hidden': 'true' }, '📦'),
+                                                el('div', { className: 'category-card__gradient', 'aria-hidden': 'true' }),
+                                                el(
+                                                    'div',
+                                                    { className: 'category-card__content' },
+                                                    el('span', { className: 'category-card__name' }, category.name || 'Без названия'),
+                                                    el('span', { className: 'category-card__count' }, categoryCountText(category.count))
+                                                )
+                                            )
+                                        );
+                                    })
+                                )
+                            ),
+                            el('button', {
+                                type: 'button',
+                                className: 'home-categories__arrow home-categories__arrow--next',
+                                disabled: true,
+                                tabIndex: -1,
+                                'aria-hidden': 'true'
+                            }, categoriesArrowNode('next'))
+                        )
+                        : el('div', { className: 'home-categories__empty' }, 'Категории WooCommerce пока не добавлены.')
                 )
             );
         }
     );
+
+    var editorProducts = (window.imidjstroyHomeEditor && window.imidjstroyHomeEditor.products)
+        ? window.imidjstroyHomeEditor.products
+        : { building: [], ad: [], popular: [] };
+
+    function productSectionConfig(type) {
+        if (type === 'building') {
+            return {
+                sectionClass: 'home-building',
+                headingClass: 'home-building__heading',
+                eyebrowClass: 'home-building__eyebrow',
+                titleClass: 'home-building__title',
+                allClass: 'home-building__all',
+                gridClass: 'home-building__grid',
+                defaultTitle: 'Стройматериалы',
+                defaultEyebrow: 'Всё для ремонта и строительства'
+            };
+        }
+
+        if (type === 'ad') {
+            return {
+                sectionClass: 'home-ad-materials',
+                headingClass: 'home-ad-materials__heading',
+                eyebrowClass: 'home-ad-materials__eyebrow',
+                titleClass: 'home-ad-materials__title',
+                allClass: 'home-ad-materials__all',
+                gridClass: 'home-ad-materials__grid',
+                defaultTitle: 'Рекламные материалы',
+                defaultEyebrow: 'Для производства рекламы'
+            };
+        }
+
+        return {
+            sectionClass: 'home-popular',
+            headingClass: 'home-popular__heading',
+            eyebrowClass: '',
+            titleClass: 'home-popular__title',
+            allClass: 'home-popular__all',
+            gridClass: 'home-popular__grid',
+            defaultTitle: 'Популярные товары',
+            defaultEyebrow: ''
+        };
+    }
+
+    function productSectionArrowNode() {
+        return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+            el('path', { d: 'M5 12h14' }),
+            el('path', { d: 'm13 6 6 6-6 6' })
+        );
+    }
+
+    function productViewIconNode() {
+        return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+            el('path', { d: 'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z' }),
+            el('circle', { cx: '12', cy: '12', r: '3' })
+        );
+    }
+
+    function productCartIconNode() {
+        return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+            el('circle', { cx: '9', cy: '20', r: '1' }),
+            el('circle', { cx: '19', cy: '20', r: '1' }),
+            el('path', { d: 'M3 4h2l2.4 10.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 7H6' })
+        );
+    }
+
+    function productPreviewCard(product, index) {
+        var available = product && product.available !== false;
+        var hasBadge = product && product.badge;
+        var badgeClass = 'product-card__badge popular-product-card__badge';
+        if (hasBadge && String(product.badge).toLowerCase() === 'скидка') {
+            badgeClass += ' is-discount';
+        }
+
+        return el(
+            'article',
+            { className: 'product-card popular-product-card imidjstroy-product-preview-card', key: (product && product.id) || index },
+            el(
+                'div',
+                { className: 'product-card__media popular-product-card__media' },
+                hasBadge ? el('span', { className: badgeClass }, product.badge) : null,
+                !available ? el('span', { className: 'product-card__availability popular-product-card__availability' }, 'Нет в наличии') : null,
+                product && product.image
+                    ? el('img', { src: product.image, alt: product.name || '', loading: 'lazy' })
+                    : el('div', { className: 'product-card__placeholder popular-product-card__placeholder' }, 'Фото товара')
+            ),
+            el(
+                'div',
+                { className: 'product-card__body popular-product-card__body' },
+                product && product.category ? el('span', { className: 'product-card__category popular-product-card__category' }, product.category) : null,
+                el('h3', { className: 'product-card__name popular-product-card__name' }, (product && product.name) || 'Товар'),
+                product && product.description ? el('p', { className: 'product-card__description popular-product-card__description' }, product.description) : null,
+                product && product.sku ? el('span', { className: 'product-card__sku popular-product-card__sku' }, 'Артикул: ' + product.sku) : null,
+                product && product.stock ? el('span', {
+                    className: 'product-card__stock popular-product-card__stock ' + (available ? 'is-in-stock' : 'is-out-of-stock')
+                }, product.stock) : null,
+                el(
+                    'div',
+                    { className: 'product-card__footer popular-product-card__footer' },
+                    el(
+                        'div',
+                        { className: 'product-card__price popular-product-card__price' },
+                        el('span', { className: 'product-card__amount popular-product-card__amount' }, (product && product.price) || '—'),
+                        el('span', { className: 'product-card__unit popular-product-card__unit' }, (product && product.unit) || 'шт.')
+                    ),
+                    el(
+                        'div',
+                        { className: 'product-card__actions popular-product-card__actions' },
+                        el('span', { className: 'product-card__action popular-product-card__action product-card__action--view popular-product-card__action--view' }, productViewIconNode()),
+                        el('span', {
+                            className: 'product-card__action popular-product-card__action product-card__action--cart popular-product-card__action--cart' + (available ? '' : ' is-disabled')
+                        }, productCartIconNode())
+                    )
+                )
+            )
+        );
+    }
 
     reg(
         'imidjstroy/product-section',
@@ -517,48 +816,135 @@
         function (props) {
             var a = props.attributes;
             var s = props.setAttributes;
+            var config = productSectionConfig(a.sectionType);
+            var products = Array.isArray(editorProducts[a.sectionType]) ? editorProducts[a.sectionType] : [];
+            var eyebrowValue = typeof a.eyebrow === 'string' && a.eyebrow.trim() !== ''
+                ? a.eyebrow
+                : config.defaultEyebrow;
 
-            var inspector = el(
-                Inspector,
-                null,
-                el(
-                    Panel,
-                    { title: 'Настройки секции', initialOpen: true },
-                    el(Select, {
-                        label: 'Источник товаров',
-                        value: a.sectionType,
-                        options: [
-                            { label: 'Стройматериалы', value: 'building' },
-                            { label: 'Рекламные материалы', value: 'ad' },
-                            { label: 'Популярные / последние', value: 'popular' }
-                        ],
-                        onChange: function (v) {
-                            var title = v === 'building' ? 'Стройматериалы' : (v === 'ad' ? 'Рекламные материалы' : 'Популярные товары');
-                            s({ sectionType: v, title: title });
-                        }
+            var headingText = a.sectionType === 'popular'
+                ? el(RichText, {
+                    tagName: 'h2',
+                    className: config.titleClass,
+                    value: a.title || config.defaultTitle,
+                    allowedFormats: [],
+                    disableLineBreaks: true,
+                    placeholder: config.defaultTitle,
+                    onChange: function (v) { s({ title: v }); }
+                })
+                : el(
+                    'div',
+                    null,
+                    el(RichText, {
+                        tagName: 'span',
+                        className: config.eyebrowClass,
+                        value: eyebrowValue,
+                        allowedFormats: [],
+                        disableLineBreaks: true,
+                        placeholder: config.defaultEyebrow,
+                        onChange: function (v) { s({ eyebrow: v }); }
                     }),
-                    el(Range, { label: 'Количество товаров', value: a.count, min: 1, max: 12, onChange: function (v) { s({ count: v }); } })
-                )
-            );
+                    el(RichText, {
+                        tagName: 'h2',
+                        className: config.titleClass,
+                        value: a.title || config.defaultTitle,
+                        allowedFormats: [],
+                        disableLineBreaks: true,
+                        placeholder: config.defaultTitle,
+                        onChange: function (v) { s({ title: v }); }
+                    })
+                );
 
             return el(
-                Fragment,
-                null,
-                inspector,
-                shell(
-                    'Товарная секция',
-                    'Товары подставляются автоматически из WooCommerce.',
+                'section',
+                { className: config.sectionClass + ' home-product-section imidjstroy-product-section-editor imidjstroy-product-section-editor--' + a.sectionType },
+                el(
+                    'div',
+                    { className: 'container' },
                     el(
                         'div',
-                        { className: 'imidjstroy-editor-fields' },
-                        el(Text, { label: 'Заголовок', value: a.title, onChange: function (v) { s({ title: v }); } }),
-                        a.sectionType === 'ad' ? el(Text, { label: 'Надзаголовок', value: a.eyebrow, onChange: function (v) { s({ eyebrow: v }); } }) : null,
-                        el(Text, { label: 'Текст ссылки', value: a.link_text, onChange: function (v) { s({ link_text: v }); } })
-                    )
+                        { className: config.headingClass },
+                        headingText,
+                        el(
+                            'div',
+                            { className: config.allClass + ' imidjstroy-product-section-editor__all' },
+                            el(RichText, {
+                                tagName: 'span',
+                                value: a.link_text,
+                                allowedFormats: [],
+                                disableLineBreaks: true,
+                                placeholder: 'Смотреть все',
+                                onChange: function (v) { s({ link_text: v }); }
+                            }),
+                            productSectionArrowNode()
+                        )
+                    ),
+                    products.length
+                        ? el(
+                            'div',
+                            { className: config.gridClass + ' imidjstroy-product-section-editor__grid' },
+                            products.map(productPreviewCard)
+                        )
+                        : el('div', { className: 'imidjstroy-product-section-editor__empty' }, 'Для этой секции пока нет товаров WooCommerce.')
                 )
             );
         }
     );
+
+    var editorNews = (window.imidjstroyHomeEditor && Array.isArray(window.imidjstroyHomeEditor.news))
+        ? window.imidjstroyHomeEditor.news
+        : [];
+
+    function newsArrowNode() {
+        return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+            el('path', { d: 'M5 12h14' }),
+            el('path', { d: 'm13 6 6 6-6 6' })
+        );
+    }
+
+    function newsCalendarNode() {
+        return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+            el('rect', { x: '3', y: '5', width: '18', height: '16', rx: '2' }),
+            el('path', { d: 'M16 3v4M8 3v4M3 10h18' })
+        );
+    }
+
+    function newsPlaceholderNode() {
+        return el(
+            'span',
+            { className: 'blog-card__placeholder', 'aria-hidden': 'true' },
+            el('svg', { viewBox: '0 0 24 24' },
+                el('path', { d: 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20' }),
+                el('path', { d: 'M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z' })
+            )
+        );
+    }
+
+    function newsPreviewCard(post, index) {
+        return el(
+            'article',
+            { className: 'blog-card imidjstroy-news-preview-card', key: post.id || index },
+            el(
+                'div',
+                { className: 'blog-card__link' },
+                el(
+                    'div',
+                    { className: 'blog-card__media' },
+                    post.image
+                        ? el('img', { src: post.image, alt: '', 'aria-hidden': 'true' })
+                        : newsPlaceholderNode()
+                ),
+                el(
+                    'div',
+                    { className: 'blog-card__body' },
+                    el('div', { className: 'blog-card__date' }, newsCalendarNode(), el('span', null, post.date || '')),
+                    el('h2', null, post.title || 'Без названия'),
+                    el('p', null, post.excerpt || ''),
+                    el('span', { className: 'blog-card__more' }, 'Читать далее ', newsArrowNode())
+                )
+            )
+        );
+    }
 
     reg(
         'imidjstroy/news',
@@ -572,19 +958,41 @@
         function (props) {
             var a = props.attributes;
             var s = props.setAttributes;
+
             return el(
-                Fragment,
-                null,
-                el(Inspector, null, el(Panel, { title: 'Новости', initialOpen: true }, el(Range, { label: 'Количество записей', value: a.count, min: 1, max: 6, onChange: function (v) { s({ count: v }); } }))),
-                shell(
-                    'Новости',
-                    'Автоматически выводит последние опубликованные записи блога.',
+                'section',
+                { className: 'home-news imidjstroy-news-editor' },
+                el(
+                    'div',
+                    { className: 'container' },
                     el(
                         'div',
-                        { className: 'imidjstroy-editor-fields' },
-                        el(Text, { label: 'Заголовок', value: a.title, onChange: function (v) { s({ title: v }); } }),
-                        el(Text, { label: 'Текст ссылки', value: a.linkText, onChange: function (v) { s({ linkText: v }); } })
-                    )
+                        { className: 'home-news__heading' },
+                        el(RichText, {
+                            tagName: 'h2',
+                            value: a.title,
+                            allowedFormats: [],
+                            disableLineBreaks: true,
+                            placeholder: 'Новости',
+                            onChange: function (v) { s({ title: v }); }
+                        }),
+                        el(
+                            'div',
+                            { className: 'imidjstroy-news-editor__all' },
+                            el(RichText, {
+                                tagName: 'span',
+                                value: a.linkText,
+                                allowedFormats: [],
+                                disableLineBreaks: true,
+                                placeholder: 'Все новости',
+                                onChange: function (v) { s({ linkText: v }); }
+                            }),
+                            newsArrowNode()
+                        )
+                    ),
+                    editorNews.length
+                        ? el('div', { className: 'blog-grid home-news__grid imidjstroy-news-editor__grid' }, editorNews.slice(0, 3).map(newsPreviewCard))
+                        : el('div', { className: 'imidjstroy-news-editor__empty' }, 'Опубликованных записей пока нет.')
                 )
             );
         }
@@ -642,25 +1050,123 @@
         }
     );
 
+    function contactPhoneIconNode() {
+        return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+            el('path', { d: 'M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.4 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c1 .3 1.9.6 2.9.7A2 2 0 0 1 22 16.9Z' })
+        );
+    }
+
+    function contactLocationIconNode() {
+        return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+            el('path', { d: 'M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z' }),
+            el('circle', { cx: '12', cy: '10', r: '2.5' })
+        );
+    }
+
+    function contactSendIconNode() {
+        return el('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+            el('path', { d: 'm22 2-7 20-4-9-9-4Z' }),
+            el('path', { d: 'M22 2 11 13' })
+        );
+    }
+
     reg(
         'imidjstroy/contact',
         'Форма заявки',
         'email',
         {
             title: { type: 'string', default: 'Оставить заявку' },
-            lead: { type: 'string', default: 'Оставьте заявку и мы свяжемся с вами в ближайшее время' }
+            lead: { type: 'string', default: 'Оставьте заявку и мы свяжемся с вами в ближайшее время' },
+            buttonText: { type: 'string', default: 'Отправить' }
         },
         function (props) {
             var a = props.attributes;
             var s = props.setAttributes;
-            return shell(
-                'Форма заявки',
-                'Контакты берутся из глобальных настроек сайта.',
+            var editorData = window.imidjstroyHomeEditor || {};
+            var phone1 = editorData.phone || '';
+            var phone2 = editorData.phone2 || '';
+            var address = editorData.address || '';
+
+            return el(
+                'section',
+                { className: 'home-contact imidjstroy-contact-editor' },
                 el(
                     'div',
-                    { className: 'imidjstroy-editor-fields' },
-                    el(Text, { label: 'Заголовок', value: a.title, onChange: function (v) { s({ title: v }); } }),
-                    el(Textarea, { label: 'Описание', value: a.lead, onChange: function (v) { s({ lead: v }); } })
+                    { className: 'container' },
+                    el(
+                        'div',
+                        { className: 'home-contact__grid' },
+                        el(
+                            'div',
+                            { className: 'home-contact__info' },
+                            el(RichText, {
+                                tagName: 'h2',
+                                className: 'home-contact__title',
+                                value: a.title,
+                                allowedFormats: [],
+                                placeholder: 'Оставить заявку',
+                                onChange: function (v) { s({ title: v }); }
+                            }),
+                            el(RichText, {
+                                tagName: 'p',
+                                className: 'home-contact__lead',
+                                value: a.lead,
+                                allowedFormats: [],
+                                placeholder: 'Описание секции',
+                                onChange: function (v) { s({ lead: v }); }
+                            }),
+                            el(
+                                'ul',
+                                { className: 'home-contact__contacts' },
+                                phone1 ? el('li', null, contactPhoneIconNode(), el('span', null, phone1)) : null,
+                                phone2 ? el('li', null, contactPhoneIconNode(), el('span', null, phone2)) : null,
+                                address ? el('li', null, contactLocationIconNode(), el('span', null, address)) : null
+                            )
+                        ),
+                        el(
+                            'div',
+                            { className: 'home-contact__form-wrap' },
+                            el(
+                                'div',
+                                { className: 'home-contact__form', 'aria-label': 'Предпросмотр формы. Отправка в редакторе отключена.' },
+                                el(
+                                    'div',
+                                    { className: 'home-contact__row' },
+                                    el(
+                                        'div',
+                                        { className: 'home-contact__field' },
+                                        el('label', null, 'ФИО *'),
+                                        el('input', { type: 'text', placeholder: 'ФИО', readOnly: true, tabIndex: -1 })
+                                    ),
+                                    el(
+                                        'div',
+                                        { className: 'home-contact__field' },
+                                        el('label', null, 'Телефон *'),
+                                        el('input', { type: 'tel', placeholder: '+7', readOnly: true, tabIndex: -1 })
+                                    )
+                                ),
+                                el(
+                                    'div',
+                                    { className: 'home-contact__field' },
+                                    el('label', null, 'Сообщение'),
+                                    el('textarea', { placeholder: 'Сообщение', rows: 4, readOnly: true, tabIndex: -1 })
+                                ),
+                                el(
+                                    'div',
+                                    { className: 'home-contact__submit imidjstroy-contact-editor__submit' },
+                                    contactSendIconNode(),
+                                    el(RichText, {
+                                        tagName: 'span',
+                                        className: 'js-contact-submit-text',
+                                        value: a.buttonText,
+                                        allowedFormats: [],
+                                        placeholder: 'Отправить',
+                                        onChange: function (v) { s({ buttonText: v }); }
+                                    })
+                                )
+                            )
+                        )
+                    )
                 )
             );
         }

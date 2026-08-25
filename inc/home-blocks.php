@@ -54,11 +54,289 @@ function imidjstroy_render_product_section_block( $a ){
     $part = isset($map[$type]) ? $map[$type] : $map['popular'];
     return imidjstroy_render_template_block('template-parts/components/'.$part,$a);
 }
-function imidjstroy_render_news_block( $a ){ return imidjstroy_render_template_block('template-parts/blocks/news',$a); }
+function imidjstroy_render_news_block( $a ){
+    $a = is_array( $a ) ? $a : [];
+    $a['count'] = 3;
+    return imidjstroy_render_template_block( 'template-parts/blocks/news', $a );
+}
 function imidjstroy_render_gallery_block( $a ){ return imidjstroy_render_template_block('template-parts/blocks/gallery',$a); }
 function imidjstroy_render_contact_block( $a ){ ob_start(); echo '<div id="contact-form">'; get_template_part('template-parts/components/contact-form',null,$a); echo '</div>'; return ob_get_clean(); }
 function imidjstroy_render_cta_block( $a ){ return imidjstroy_render_template_block('template-parts/blocks/cta',$a); }
 function imidjstroy_render_text_block( $a ){ return imidjstroy_render_template_block('template-parts/blocks/text',$a); }
+
+/**
+ * Category data used only for the Gutenberg preview.
+ * The frontend remains dynamic and continues to read product_cat directly.
+ */
+function imidjstroy_home_editor_categories() {
+    if ( ! taxonomy_exists( 'product_cat' ) ) {
+        return [];
+    }
+
+    $terms = get_terms( [
+        'taxonomy'   => 'product_cat',
+        'hide_empty' => false,
+        'orderby'    => 'menu_order',
+        'order'      => 'ASC',
+    ] );
+
+    if ( is_wp_error( $terms ) ) {
+        return [];
+    }
+
+    $items = [];
+
+    foreach ( $terms as $term ) {
+        if ( (int) $term->parent <= 0 ) {
+            continue;
+        }
+
+        $thumbnail_id = absint( get_term_meta( $term->term_id, 'thumbnail_id', true ) );
+        $image_url = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'medium_large' ) : '';
+        $term_link = get_term_link( $term );
+
+        $items[] = [
+            'id'    => (int) $term->term_id,
+            'name'  => $term->name,
+            'count' => (int) $term->count,
+            'image' => $image_url ? $image_url : '',
+            'url'   => is_wp_error( $term_link ) ? '' : $term_link,
+        ];
+    }
+
+    return $items;
+}
+
+/**
+ * Product data used only for Gutenberg previews of the three fixed
+ * home-page product sections. Products themselves remain managed by
+ * WooCommerce and are not stored in block attributes.
+ */
+function imidjstroy_home_editor_product_section( $type, $count = 8 ) {
+    if ( ! class_exists( 'WooCommerce' ) ) {
+        return [];
+    }
+
+    $type  = sanitize_key( $type );
+    $count = max( 1, min( 8, absint( $count ) ) );
+    $query_args = [
+        'post_type'      => 'product',
+        'post_status'    => 'publish',
+        'posts_per_page' => $count,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+    ];
+    $exclude_category_id = 0;
+
+    if ( 'building' === $type && taxonomy_exists( 'product_cat' ) ) {
+        $parent = get_term_by( 'name', 'Стройматериалы', 'product_cat' );
+
+        if ( ! $parent || is_wp_error( $parent ) ) {
+            $parent = get_term_by( 'slug', 'stroymaterialy', 'product_cat' );
+        }
+
+        if ( ! $parent || is_wp_error( $parent ) ) {
+            return [];
+        }
+
+        $child_ids = get_term_children( $parent->term_id, 'product_cat' );
+        if ( is_wp_error( $child_ids ) ) {
+            $child_ids = [];
+        }
+
+        $exclude_category_id = (int) $parent->term_id;
+        $query_args['tax_query'] = [
+            [
+                'taxonomy'         => 'product_cat',
+                'field'            => 'term_id',
+                'terms'            => array_map( 'absint', array_merge( [ $parent->term_id ], $child_ids ) ),
+                'include_children' => true,
+            ],
+        ];
+    } elseif ( 'ad' === $type && taxonomy_exists( 'product_cat' ) ) {
+        $parent = null;
+        $candidate_names = [
+            'Рекламные материалы',
+            'Материалы для рекламы',
+            'Рекламные материалы и оборудование',
+        ];
+
+        foreach ( $candidate_names as $candidate_name ) {
+            $term = get_term_by( 'name', $candidate_name, 'product_cat' );
+            if ( $term && ! is_wp_error( $term ) ) {
+                $parent = $term;
+                break;
+            }
+        }
+
+        if ( ! $parent ) {
+            foreach ( [ 'reklamnye-materialy', 'materialy-dlya-reklamy', 'reklamnye-materialy-i-oborudovanie' ] as $candidate_slug ) {
+                $term = get_term_by( 'slug', $candidate_slug, 'product_cat' );
+                if ( $term && ! is_wp_error( $term ) ) {
+                    $parent = $term;
+                    break;
+                }
+            }
+        }
+
+        if ( ! $parent || is_wp_error( $parent ) ) {
+            return [];
+        }
+
+        $child_ids = get_term_children( $parent->term_id, 'product_cat' );
+        if ( is_wp_error( $child_ids ) ) {
+            $child_ids = [];
+        }
+
+        $exclude_category_id = (int) $parent->term_id;
+        $query_args['tax_query'] = [
+            [
+                'taxonomy'         => 'product_cat',
+                'field'            => 'term_id',
+                'terms'            => array_map( 'absint', array_merge( [ $parent->term_id ], $child_ids ) ),
+                'include_children' => true,
+            ],
+        ];
+    }
+
+    $query = new WP_Query( $query_args );
+    $items = [];
+
+    foreach ( $query->posts as $product_post ) {
+        $product = wc_get_product( $product_post->ID );
+        if ( ! $product ) {
+            continue;
+        }
+
+        $product_id  = $product->get_id();
+        $image_id    = $product->get_image_id();
+        $image_url   = $image_id ? wp_get_attachment_image_url( $image_id, 'woocommerce_thumbnail' ) : '';
+        $description = wp_strip_all_tags( $product->get_short_description() );
+
+        if ( ! $description ) {
+            $description = wp_strip_all_tags( $product->get_description() );
+        }
+
+        $description = wp_trim_words( $description, 18, '…' );
+        $categories = get_the_terms( $product_id, 'product_cat' );
+        $category_name = '';
+
+        if ( $categories && ! is_wp_error( $categories ) ) {
+            foreach ( $categories as $category ) {
+                if ( $exclude_category_id && (int) $category->term_id === $exclude_category_id ) {
+                    continue;
+                }
+                $category_name = $category->name;
+                break;
+            }
+            if ( ! $category_name && isset( $categories[0] ) ) {
+                $category_name = $categories[0]->name;
+            }
+        }
+
+        $quantity = $product->get_stock_quantity();
+        $unit = function_exists( 'imidjstroy_product_unit' ) ? imidjstroy_product_unit( $product ) : 'шт.';
+        $available = $product->is_in_stock() && ( null === $quantity || $quantity > 0 );
+        $stock_text = '';
+
+        if ( null !== $quantity ) {
+            if ( $available ) {
+                $unit_label = function_exists( 'imidjstroy_unit_label' )
+                    ? imidjstroy_unit_label( $quantity, $unit )
+                    : $unit;
+                $stock_text = sprintf( 'В наличии: %s %s', $quantity, $unit_label );
+            } else {
+                $stock_text = 'Нет в наличии';
+            }
+        } elseif ( $available ) {
+            $stock_text = 'В наличии';
+        } else {
+            $stock_text = 'Нет в наличии';
+        }
+
+        $badge = trim( (string) $product->get_meta( '_imidjstroy_badge', true ) );
+        if ( '' === $badge ) {
+            $badge = trim( (string) $product->get_meta( 'badge', true ) );
+        }
+        if ( '' === $badge ) {
+            $badge = trim( (string) $product->get_meta( '_badge', true ) );
+        }
+        if ( '' === $badge && $product->is_on_sale() ) {
+            $badge = 'Скидка';
+        }
+        if ( 'none' === mb_strtolower( $badge ) ) {
+            $badge = '';
+        }
+
+        $price_text = html_entity_decode(
+            wp_strip_all_tags( $product->get_price_html() ),
+            ENT_QUOTES,
+            get_bloginfo( 'charset' ) ?: 'UTF-8'
+        );
+
+        $items[] = [
+            'id'          => (int) $product_id,
+            'name'        => $product->get_name(),
+            'image'       => $image_url ? $image_url : '',
+            'category'    => $category_name,
+            'description' => $description,
+            'sku'         => $product->get_sku(),
+            'stock'       => $stock_text,
+            'available'   => (bool) $available,
+            'price'       => trim( preg_replace( '/\\s+/u', ' ', $price_text ) ),
+            'unit'        => $unit,
+            'badge'       => $badge,
+        ];
+    }
+
+    wp_reset_postdata();
+    return $items;
+}
+
+
+/**
+ * Latest published posts used only for the Gutenberg preview of the fixed
+ * home-page News section. Post content remains managed in WordPress Posts
+ * and is not stored in block attributes.
+ */
+function imidjstroy_home_editor_news_posts( $count = 3 ) {
+    $count = max( 1, min( 3, absint( $count ) ) );
+    $query = new WP_Query( [
+        'post_type'           => 'post',
+        'post_status'         => 'publish',
+        'posts_per_page'      => $count,
+        'ignore_sticky_posts' => true,
+        'orderby'             => 'date',
+        'order'               => 'DESC',
+    ] );
+
+    if ( ! $query->have_posts() ) {
+        wp_reset_postdata();
+        return [];
+    }
+
+    $items = [];
+
+    while ( $query->have_posts() ) {
+        $query->the_post();
+
+        $thumbnail = has_post_thumbnail()
+            ? get_the_post_thumbnail_url( get_the_ID(), 'medium_large' )
+            : '';
+
+        $items[] = [
+            'id'      => (int) get_the_ID(),
+            'title'   => get_the_title(),
+            'date'    => get_the_date( 'd.m.Y' ),
+            'excerpt' => wp_trim_words( get_the_excerpt(), 22, '…' ),
+            'image'   => $thumbnail ? $thumbnail : '',
+            'url'     => get_permalink(),
+        ];
+    }
+
+    wp_reset_postdata();
+    return $items;
+}
 
 function imidjstroy_register_home_blocks() {
     $script_path = get_template_directory() . '/assets/js/home-blocks.js';
@@ -69,8 +347,18 @@ function imidjstroy_register_home_blocks() {
         'imidjstroyHomeEditor',
         [
             'phone'          => imidjstroy_get_site_setting( 'phone_1' ),
+            'phone2'         => imidjstroy_get_site_setting( 'phone_2' ),
+            'address'        => imidjstroy_get_site_setting( 'address' ),
             'city'           => imidjstroy_get_site_setting( 'city_short' ),
+            'featureHours'   => imidjstroy_get_site_setting( 'hours_feature' ),
             'heroBackground' => get_template_directory_uri() . '/assets/images/hero-bg.jpg',
+            'categories'     => imidjstroy_home_editor_categories(),
+            'products'       => is_admin() ? [
+                'building' => imidjstroy_home_editor_product_section( 'building', 8 ),
+                'ad'       => imidjstroy_home_editor_product_section( 'ad', 8 ),
+                'popular'  => imidjstroy_home_editor_product_section( 'popular', 8 ),
+            ] : [ 'building' => [], 'ad' => [], 'popular' => [] ],
+            'news'           => is_admin() ? imidjstroy_home_editor_news_posts( 3 ) : [],
         ]
     );
     $defaults = imidjstroy_home_block_defaults();
@@ -121,7 +409,7 @@ function imidjstroy_register_home_blocks() {
     register_block_type('imidjstroy/product-section', array_merge($common,[ 'attributes'=>[ 'sectionType'=>['type'=>'string','default'=>'popular'], 'title'=>['type'=>'string','default'=>'Популярные товары'], 'eyebrow'=>['type'=>'string','default'=>''], 'link_text'=>['type'=>'string','default'=>'Смотреть все'], 'count'=>['type'=>'number','default'=>8] ], 'render_callback'=>'imidjstroy_render_product_section_block' ]));
     register_block_type('imidjstroy/news', array_merge($common,[ 'attributes'=>[ 'title'=>['type'=>'string','default'=>'Новости'], 'count'=>['type'=>'number','default'=>3], 'linkText'=>['type'=>'string','default'=>'Все новости'] ], 'render_callback'=>'imidjstroy_render_news_block' ]));
     register_block_type('imidjstroy/gallery', array_merge($common,[ 'attributes'=>[ 'title'=>['type'=>'string','default'=>'Галерея'], 'imageIds'=>['type'=>'array','default'=>[]], 'columns'=>['type'=>'number','default'=>4] ], 'render_callback'=>'imidjstroy_render_gallery_block' ]));
-    register_block_type('imidjstroy/contact', array_merge($common,[ 'attributes'=>[ 'title'=>['type'=>'string','default'=>'Оставить заявку'], 'lead'=>['type'=>'string','default'=>'Оставьте заявку и мы свяжемся с вами в ближайшее время'] ], 'render_callback'=>'imidjstroy_render_contact_block' ]));
+    register_block_type('imidjstroy/contact', array_merge($common,[ 'attributes'=>[ 'title'=>['type'=>'string','default'=>'Оставить заявку'], 'lead'=>['type'=>'string','default'=>'Оставьте заявку и мы свяжемся с вами в ближайшее время'], 'buttonText'=>['type'=>'string','default'=>'Отправить'] ], 'render_callback'=>'imidjstroy_render_contact_block' ]));
     register_block_type('imidjstroy/cta', array_merge($common,[ 'attributes'=>[ 'title'=>['type'=>'string','default'=>'Нужна консультация?'], 'text'=>['type'=>'string','default'=>'Поможем подобрать материалы под вашу задачу.'], 'buttonText'=>['type'=>'string','default'=>'Связаться с нами'], 'buttonUrl'=>['type'=>'string','default'=>home_url('/contacts/')] ], 'render_callback'=>'imidjstroy_render_cta_block' ]));
     register_block_type('imidjstroy/text', array_merge($common,[ 'attributes'=>[ 'eyebrow'=>['type'=>'string','default'=>''], 'title'=>['type'=>'string','default'=>'Заголовок блока'], 'content'=>['type'=>'string','default'=>'Добавьте текст в редакторе главной страницы.'] ], 'render_callback'=>'imidjstroy_render_text_block' ]));
 }
@@ -179,7 +467,7 @@ function imidjstroy_get_default_home_block_content() {
         '<!-- wp:imidjstroy/hero /-->',
         '<!-- wp:imidjstroy/features /-->',
         '<!-- wp:imidjstroy/categories /-->',
-        '<!-- wp:imidjstroy/product-section {"sectionType":"building","title":"Стройматериалы","count":8} /-->',
+        '<!-- wp:imidjstroy/product-section {"sectionType":"building","title":"Стройматериалы","eyebrow":"Всё для ремонта и строительства","count":8} /-->',
         '<!-- wp:imidjstroy/product-section {"sectionType":"ad","title":"Рекламные материалы","eyebrow":"Для производства рекламы","count":8} /-->',
         '<!-- wp:imidjstroy/product-section {"sectionType":"popular","title":"Популярные товары","count":8} /-->',
         '<!-- wp:imidjstroy/news {"title":"Новости","count":3,"linkText":"Все новости"} /-->',
